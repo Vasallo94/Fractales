@@ -1,7 +1,6 @@
 import numpy as np
 import matplotlib.pyplot as plt
 import plotly.graph_objects as go
-import plotly.io as pio
 import streamlit as st
 import tempfile
 import cmath
@@ -105,9 +104,9 @@ def st_plot_mandelbrot(n, k, Xr, Yr, color, selected_func, m):
 funct_dict = {
     'Fractal de Julia del tipo z^m + c': lambda z, c, m: z ** m + c,
     'Fractal de Julia del tipo z^m + 1/c': lambda z, c, m: z ** m + 1/c,
-    'Fractal de Julia del tipo z = Exp(z^m/c^m)': lambda z, c, m: mpmath.exp(z ** m / c ** m),
+    'Fractal de Julia del tipo z = Exp(z^m/c^m)': lambda z, c, m: mpmath.exp(z ** m / c ** m), #! FALTA AÑADIR MÁS ECUACIONES
 }
-
+#! INTENTAR HACER UNA FORMA DE QUE EL USUARIO AÑADA SU ECUACIÓN 
 
 @ st.cache_data()
 def st_plot_julia(n, c_real, c_imag, k, Xr, Yr, color, selected_funct, m_j):

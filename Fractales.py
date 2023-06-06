@@ -7,13 +7,9 @@ import streamlit as st
 import warnings
 import numpy as np
 import matplotlib.pyplot as plt
-import plotly.graph_objects as go
-import plotly.io as pio
 from utils.funciones import *
 import cmath
 import math
-# Configuración del tema oscuro para los gráficos de Plotly
-pio.templates.default = "plotly_dark"
 
 
 ################################################# CONFIGURACIÓN DE LA PÁGINA  #####################################################
