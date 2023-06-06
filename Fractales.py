@@ -44,7 +44,7 @@ def main():
 
     with col1:
         st.markdown("# Fractales")
-        st.markdown('## SUBTITULO')
+        # st.markdown('## SUBTITULO')
 
     with col2:
         st.image('img/koch_fractal.gif', caption='Fractal de Koch')
