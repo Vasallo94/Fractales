@@ -45,3 +45,9 @@ streamlit run app.py
 ## Contributing
 
 Contributions are welcome! If you find any bugs or want to suggest new features, please open an issue or submit a pull request.
+## Examples
+
+|   |   |
+|---|---|
+| ![Alt text](img/exp(z%5E3:c%5E3).png) | ![Alt text](img/img__function%20_lambda_%20at%200x126daa440__m2_n600_k100.png) |
+| ![Alt text](img/img__function%20_lambda_%20at%200x126e74940__m2_n600_k100.png) |  ![Alt text](img/img__function%20_lambda_%20at%200x1259d1750__m3_n600_k100.png)|
