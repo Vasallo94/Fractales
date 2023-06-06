@@ -1,6 +1,5 @@
 numpy
 matplotlib
 streamlit
-tempfile
 mpmath
 warnings
