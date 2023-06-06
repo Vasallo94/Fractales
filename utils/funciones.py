@@ -5,11 +5,6 @@ import tempfile
 import cmath
 import mpmath
 
-
-# Configuración del tema oscuro para los gráficos de Plotly
-pio.templates.default = "plotly_dark"
-
-
 # Diccionario de funciones disponibles para el fractal de Mandelbrot
 function_dict = {
     'Fractal de Mandelbrot del tipo z = z^m + c': lambda z, c, m: z ** m + c,
@@ -103,9 +98,11 @@ def st_plot_mandelbrot(n, k, Xr, Yr, color, selected_func, m):
 funct_dict = {
     'Fractal de Julia del tipo z^m + c': lambda z, c, m: z ** m + c,
     'Fractal de Julia del tipo z^m + 1/c': lambda z, c, m: z ** m + 1/c,
-    'Fractal de Julia del tipo z = Exp(z^m/c^m)': lambda z, c, m: mpmath.exp(z ** m / c ** m), #! FALTA AÑADIR MÁS ECUACIONES
+    # ! FALTA AÑADIR MÁS ECUACIONES
+    'Fractal de Julia del tipo z = Exp(z^m/c^m)': lambda z, c, m: mpmath.exp(z ** m / c ** m),
 }
-#! INTENTAR HACER UNA FORMA DE QUE EL USUARIO AÑADA SU ECUACIÓN 
+#! INTENTAR HACER UNA FORMA DE QUE EL USUARIO AÑADA SU ECUACIÓN
+
 
 @ st.cache_data()
 def st_plot_julia(n, c_real, c_imag, k, Xr, Yr, color, selected_funct, m_j):
