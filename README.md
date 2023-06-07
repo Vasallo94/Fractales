@@ -8,7 +8,6 @@ This Fractal Generator is a Python application that allows you to visualize and 
 - Generate and display Julia sets with different parameters, including the number of iterations, power, and function type.
 - Customizable color maps for visualizing fractals.
 - Ability to save generated fractal images as PNG files.
-- Dark theme for visual comfort.
 
 ## [Streamlit App](https://vasallo94-fractales-fractales-wg6rue.streamlit.app)
 
