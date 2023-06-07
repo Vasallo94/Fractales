@@ -97,7 +97,7 @@ def st_plot_mandelbrot(n, k, Xr, Yr, color, selected_func, m):
     end_time = time.time()  # Registro del tiempo de finalización de la ejecución
     execution_time = end_time - start_time
     print(f"Tiempo de ejecución: {round(execution_time, 2)} segundos")
-    
+
     # st.write(f"Tiempo de ejecución: {round(execution_time, 2)} segundos")
 
     # Devolver los bytes de la imagen y el nombre del archivo
