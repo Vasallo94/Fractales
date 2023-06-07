@@ -6,6 +6,7 @@ import cmath
 import mpmath
 import math
 import time
+from joblib import Parallel, delayed
 
 
 # Diccionario de funciones disponibles para el fractal de Mandelbrot
@@ -57,20 +58,30 @@ def st_plot_mandelbrot(n, k, Xr, Yr, color, selected_func, m):
     # Barra de progreso
     progress_bar = st.progress(0)
 
-    # Calcular el valor del conjunto de Mandelbrot para cada punto
+    # Define the function to calculate the Mandelbrot value for a single point
+    def calculate_mandelbrot(i, j):
+        c = X[i, j] + Y[i, j] * 1j
+        z = 0
+        func = function_dict[selected_func]
+        for _ in range(k):
+            z = func(z, c, m)
+            if abs(z) > 2:
+                break
+        return _
+
+    # Parallelize the computation of the Mandelbrot set
+    num_cores = -1  # Adjust the number of cores to use. (-1 uses all)
+    results = Parallel(n_jobs=num_cores)(delayed(calculate_mandelbrot)(
+        i, j) for i in range(len(X)) for j in range(len(Y)))
+
+    # Store the results in the W matrix
     for i in range(len(X)):
         for j in range(len(Y)):
-            c = X[i, j] + Y[i, j] * 1j
-            z = 0
-            func = function_dict[selected_func]
-            for _ in range(k):
-                z = func(z, c, m)
-                if abs(z) > 2:
-                    break
-            # Almacenar el número de iteraciones en la matriz W
-            W[i, j] = _
+            W[i, j] = results[i * len(Y) + j]
+
         # Muestra el progreso de la ejecución
         progress_bar.progress(i / len(X))
+
     # Crear una figura y mostrar la imagen del conjunto de Mandelbrot en ella
     fig = plt.figure()
     plt.imshow(W, extent=[Xr[0], Xr[1], Yr[0], Yr[1]],
