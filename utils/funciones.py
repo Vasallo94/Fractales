@@ -4,7 +4,9 @@ import streamlit as st
 import tempfile
 import cmath
 import mpmath
+import math
 import time
+
 
 # Diccionario de funciones disponibles para el fractal de Mandelbrot
 function_dict = {
@@ -97,11 +99,16 @@ def st_plot_mandelbrot(n, k, Xr, Yr, color, selected_func, m):
     end_time = time.time()  # Registro del tiempo de finalización de la ejecución
     execution_time = end_time - start_time
     print(f"Tiempo de ejecución: {round(execution_time, 2)} segundos")
+    # Convertir el tiempo de ejecución a minutos y segundos
+    minutes = math.floor(execution_time / 60)
+    seconds = execution_time % 60
 
-    # st.write(f"Tiempo de ejecución: {round(execution_time, 2)} segundos")
+    # Formatear el tiempo en minutos y segundos
+    time_str = f"{minutes} minutos y {round(seconds, 2)} segundos" if minutes > 0 else f"{round(seconds, 2)} segundos"
+    print(f"Tiempo de ejecución: {time_str}")
 
     # Devolver los bytes de la imagen y el nombre del archivo
-    return img_bytes, filename
+    return img_bytes, filename, execution_time
 
 
 funct_dict = {
@@ -129,6 +136,7 @@ def st_plot_julia(n, c_real, c_imag, k, Xr, Yr, color, selected_funct, m_j):
     Returns:
         BytesIO: Archivo de imagen en formato PNG.
     """
+    start_time_j = time.time()  # Registro del tiempo de inicio de la ejecución
 
     # Obtener el nombre de la función seleccionada
     name_selected_funct = funct_dict[selected_funct]
@@ -181,8 +189,19 @@ def st_plot_julia(n, c_real, c_imag, k, Xr, Yr, color, selected_funct, m_j):
         tmpfile.seek(0)  # Reiniciar el puntero del archivo al inicio
         img_bytes = tmpfile.read()
 
+    end_time = time.time()  # Registro del tiempo de finalización de la ejecución
+    execution_time_j = end_time - start_time_j
+
+    # Convertir el tiempo de ejecución a minutos y segundos
+    minutes_j = math.floor(execution_time_j / 60)
+    seconds_j = execution_time_j % 60
+
+    # Formatear el tiempo en minutos y segundos
+    time_str = f"{minutes_j} minutos y {round(seconds_j, 2)} segundos" if minutes_j > 0 else f"{round(seconds_j, 2)} segundos"
+    print(f"Tiempo de ejecución: {time_str}")
+
     # Devolver los bytes de la imagen
-    return img_bytes, filename_j
+    return img_bytes, filename_j, execution_time_j
 
 
 # def plot_mandelbrot(n, k, Xr, Yr):

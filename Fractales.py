@@ -77,9 +77,15 @@ def main():
         # Verificar si se ha presionado el botón "Generar Plot"
         if st.button("Generar gráfico del conjunto de Mandelbrot"):
             # Llamar a la función st_plot_mandelbrot con los parámetros ingresados
-            img_bytes, filename = st_plot_mandelbrot(
+            img_bytes, filename, execution_time = st_plot_mandelbrot(
                 n_m, k_m, Xr_m, Yr_m, color_m, selected_func, m)
+            # Convertir el tiempo de ejecución a minutos y segundos
+            minutes = math.floor(execution_time / 60)
+            seconds = execution_time % 60
 
+            # Formatear el tiempo en minutos y segundos
+            time_str = f"{minutes} minutos y {round(seconds, 2)} segundos" if minutes > 0 else f"{round(seconds, 2)} segundos"
+            st.write(f"Tiempo de ejecución: {time_str}")
             # Verificar si se pudo generar el gráfico
             if img_bytes is not None:
                 # Agregar un botón para descargar la imagen en formato PNG
@@ -121,9 +127,15 @@ def main():
         # Verificar si se ha presionado el botón "Generar Plot"
         if st.button("Generar gráfico del conjunto de Julia", key="button_plot"):
             # Llamar a la función plot_julia con los parámetros ingresados
-            img_bytes, filename_j = st_plot_julia(
+            img_bytes, filename_j, execution_time_j = st_plot_julia(
                 n_j, c_real, c_imag, k_j, Xr_j, Yr_j, color_j, selected_funct, m_j)
+            # Convertir el tiempo de ejecución a minutos y segundos
+            minutes_j = math.floor(execution_time_j / 60)
+            seconds_j = execution_time_j % 60
 
+            # Formatear el tiempo en minutos y segundos
+            time_str = f"{minutes_j} minutos y {round(seconds_j, 2)} segundos" if minutes_j > 0 else f"{round(seconds_j, 2)} segundos"
+            st.write(f"Tiempo de ejecución: {time_str}")
             # Verificar si se pudo generar el gráfico
             if img_bytes is not None:
                 # Agregar un botón para descargar la imagen en formato PNG
