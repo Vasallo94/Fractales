@@ -96,7 +96,7 @@ def st_plot_mandelbrot(n, k, Xr, Yr, color, selected_func, m):
     st.pyplot(fig)
 
     # Generate the filename based on the input data and the selected function
-    filename = f"img/{name_selected_func}_m{m}_n{n}_k{k}.png"
+    filename = f"img/{selected_func}_m{m}_n{n}_k{k}.png"
 
     # Save the figure to a temporary file in PNG format
     with tempfile.NamedTemporaryFile(suffix=".png") as tmpfile:
@@ -206,7 +206,7 @@ def st_plot_julia(n, c_real, c_imag, k, Xr, Yr, color, selected_funct, m_j):
     st.pyplot(fig)
 
     # Generate the filename based on the input data and the selected function
-    filename_j = f"img/julia_{name_selected_funct}_m{m_j}_c{c}_n{n}_k{k}.png"
+    filename_j = f"img/julia_{selected_funct}_m{m_j}_c{c}_n{n}_k{k}.png"
 
     # Save the figure to a temporary file in PNG format
     with tempfile.NamedTemporaryFile(suffix=".png") as tmpfile:
