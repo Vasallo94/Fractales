@@ -20,19 +20,19 @@ st.set_page_config(page_title="Fractales",
 st.set_option("deprecation.showPyplotGlobalUse", False)
 warnings.simplefilter(action='ignore', category=FutureWarning)
 
-# Configuración de la barra lateral y de Made with Streamlit
-st.markdown("""
-<style>
-.css-njmhce.e1ewe7hr3
-{
-visibility: hidden;
-}
-{
-.css-10pw50.e1g8pov61
-{
-visibility: hidden;
-}
-</style›""", unsafe_allow_html=True)
+# # Configuración de la barra lateral y de Made with Streamlit
+# st.markdown("""
+# <style>
+# .css-njmhce.e1ewe7hr3
+# {
+# visibility: hidden;
+# }
+# {
+# .css-10pw50.e1g8pov61
+# {
+# visibility: hidden;
+# }
+# </style›""", unsafe_allow_html=True)
 
 ########################################### INICIO DE LA PÁGINA ###########################################################
 
