@@ -23,12 +23,12 @@ warnings.simplefilter(action='ignore', category=FutureWarning)
 # Configuración de la barra lateral y de Made with Streamlit
 st.markdown("""
 <style>
-.css-14xtw13.e8zbici0
+.css-njmhce.e1ewe7hr3
 {
 visibility: hidden;
 }
 {
-.css-qcqlej.egzxvld3 
+.css-10pw50.e1g8pov61
 {
 visibility: hidden;
 }
