@@ -13,8 +13,8 @@ from joblib import Parallel, delayed
 function_dict = {
     'Fractal de Mandelbrot del tipo z = z^m + c': lambda z, c, m: z ** m + c,
     'Fractal de Mandelbrot del tipo z =  z^m + 1/c': lambda z, c, m: z ** m + 1/c,
-    'Fractal de Mandelbrot del tipo z = cos(z^m) + 1/c': lambda z, c, m: cmath.cos(z**m) + 1/c,
-    'Fractal de Mandelbrot del tipo z = sin(z^m) + 1/c': lambda z, c, m: cmath.sin(z**m) + 1/c,
+    'Fractal de Mandelbrot del tipo z = cos(z^m) + 1/c': lambda z, c, m: mpmath.cos(z**m) + 1/c,
+    'Fractal de Mandelbrot del tipo z = sin(z^m) + 1/c': lambda z, c, m: mpmath.sin(z**m) + 1/c,
     'Fractal de Mandelbrot del tipo z = exp[(z^m - 1.00001 * z) / sqrt(c^3)]': lambda z, c, m: mpmath.exp((z**m - 1.00001 * z) / cmath.sqrt(c**3)),
     'Fractal de Mandelbrot del tipo z = exp[(z^m - 1.00001 * z) / c^3]': lambda z, c, m: mpmath.exp((z**m - 1.00001 * z) / c**3),
     'Fractal de Mandelbrot del tipo z = cos(z^m/c^m)': lambda z, c, m: mpmath.cos(z**m/c**m),
