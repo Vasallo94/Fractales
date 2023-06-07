@@ -4,6 +4,7 @@ import streamlit as st
 import tempfile
 import cmath
 import mpmath
+import time
 
 # Diccionario de funciones disponibles para el fractal de Mandelbrot
 function_dict = {
@@ -21,7 +22,7 @@ function_dict = {
 }
 
 
-@ st.cache_data()
+@st.cache_data()
 def st_plot_mandelbrot(n, k, Xr, Yr, color, selected_func, m):
     """
     Genera y muestra un gráfico del conjunto de Mandelbrot utilizando la biblioteca Matplotlib.
@@ -38,6 +39,8 @@ def st_plot_mandelbrot(n, k, Xr, Yr, color, selected_func, m):
     Returns:
         BytesIO: Archivo de imagen en formato PNG.
     """
+    start_time = time.time()  # Registro del tiempo de inicio de la ejecución
+
     # Obtener el nombre de la función seleccionada
     name_selected_func = function_dict[selected_func]
 
@@ -91,6 +94,12 @@ def st_plot_mandelbrot(n, k, Xr, Yr, color, selected_func, m):
         tmpfile.seek(0)  # Reiniciar el puntero del archivo al inicio
         img_bytes = tmpfile.read()
 
+    end_time = time.time()  # Registro del tiempo de finalización de la ejecución
+    execution_time = end_time - start_time
+    print(f"Tiempo de ejecución: {round(execution_time, 2)} segundos")
+    
+    # st.write(f"Tiempo de ejecución: {round(execution_time, 2)} segundos")
+
     # Devolver los bytes de la imagen y el nombre del archivo
     return img_bytes, filename
 
@@ -104,7 +113,7 @@ funct_dict = {
 #! INTENTAR HACER UNA FORMA DE QUE EL USUARIO AÑADA SU ECUACIÓN
 
 
-@ st.cache_data()
+@st.cache_data()
 def st_plot_julia(n, c_real, c_imag, k, Xr, Yr, color, selected_funct, m_j):
     """
     Genera y muestra un gráfico del conjunto de Julia utilizando la biblioteca Matplotlib.
