@@ -11,7 +11,9 @@ from utils.funciones import *
 import cmath
 import math
 
+# Establece la opción de almacenamiento en caché de Streamlit en disco
 st.set_option('client.caching', 'disk')
+
 ################################################# CONFIGURACIÓN DE LA PÁGINA  #####################################################
 st.set_page_config(page_title="Fractales",
                    layout="wide", page_icon="❄️", initial_sidebar_state="collapsed")

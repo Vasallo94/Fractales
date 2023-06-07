@@ -28,34 +28,34 @@ function_dict = {
 @st.cache_data()
 def st_plot_mandelbrot(n, k, Xr, Yr, color, selected_func, m):
     """
-    Genera y muestra un gráfico del conjunto de Mandelbrot utilizando la biblioteca Matplotlib.
+    Generates and displays a plot of the Mandelbrot set using the Matplotlib library.
 
     Args:
-        n: Número de puntos en cada dimensión del gráfico.
-        k: Número máximo de iteraciones.
-        Xr: Rango de valores del eje x [xmin, xmax].
-        Yr: Rango de valores del eje y [ymin, ymax].
-        color: Mapa de colores a utilizar en el gráfico.
-        selected_func: Nombre de la función seleccionada por el usuario.
-        m: Potencia de z.
+        n: Number of points in each dimension of the plot.
+        k: Maximum number of iterations.
+        Xr: Range of values for the x-axis [xmin, xmax].
+        Yr: Range of values for the y-axis [ymin, ymax].
+        color: Color map to use in the plot.
+        selected_func: Name of the selected function.
+        m: Power of z.
 
     Returns:
-        BytesIO: Archivo de imagen en formato PNG.
+        BytesIO: Image file in PNG format.
     """
-    start_time = time.time()  # Registro del tiempo de inicio de la ejecución
+    start_time = time.time()  # Start execution time measurement
 
-    # Obtener el nombre de la función seleccionada
+    # Get the name of the selected function
     name_selected_func = function_dict[selected_func]
 
-    # Generar las coordenadas x e y
+    # Generate x and y coordinates
     x = np.linspace(Xr[0], Xr[1], n)
     y = np.linspace(Yr[0], Yr[1], n)
     X, Y = np.meshgrid(x, y)
 
-    # Inicializar la matriz de valores del conjunto de Mandelbrot
+    # Initialize the Mandelbrot set value matrix
     W = np.zeros((len(X), len(Y)))
 
-    # Barra de progreso
+    # Progress bar
     progress_bar = st.progress(0)
 
     # Define the function to calculate the Mandelbrot value for a single point
@@ -70,7 +70,7 @@ def st_plot_mandelbrot(n, k, Xr, Yr, color, selected_func, m):
         return _
 
     # Parallelize the computation of the Mandelbrot set
-    num_cores = -1  # Adjust the number of cores to use. (-1 uses all)
+    num_cores = -1  # Adjust the number of cores to use (-1 uses all)
     results = Parallel(n_jobs=num_cores)(delayed(calculate_mandelbrot)(
         i, j) for i in range(len(X)) for j in range(len(Y)))
 
@@ -79,46 +79,43 @@ def st_plot_mandelbrot(n, k, Xr, Yr, color, selected_func, m):
         for j in range(len(Y)):
             W[i, j] = results[i * len(Y) + j]
 
-        # Muestra el progreso de la ejecución
-        progress_bar.progress(i / len(X))
+        # Update progress bar
+        progress_bar.progress(i / len(X))  # ! Arreglar la barra de progreso
 
-    # Crear una figura y mostrar la imagen del conjunto de Mandelbrot en ella
-    fig = plt.figure()
-    plt.imshow(W, extent=[Xr[0], Xr[1], Yr[0], Yr[1]],
-               cmap=color, interpolation='bilinear', aspect="equal")
+    # Create a figure and display the Mandelbrot set image
+    fig, ax = plt.subplots()
+    ax.imshow(W, extent=[Xr[0], Xr[1], Yr[0], Yr[1]],
+              cmap=color, interpolation='bilinear', aspect="equal")
 
-    # Configurar el título de la gráfica con los parámetros y la función seleccionada
-    plt.title(
-        f"{selected_func}, m={m}, n={n}, k={k}", fontsize=9)
-    # Configurar el tamaño de los números de los ejes x e y
-    plt.xticks(fontsize=8)
-    plt.yticks(fontsize=8)
+    # Set the plot title with the selected parameters and function
+    ax.set_title(f"{selected_func}, m={m}, n={n}, k={k}", fontsize=9)
+    # Set the font size of x and y axis labels
+    ax.tick_params(axis='both', labelsize=8)
 
-    # Mostrar la figura en la interfaz de Streamlit
+    # Display the plot in the Streamlit interface
     st.pyplot(fig)
 
-    # Generar el nombre del archivo basado en los datos de entrada y la función seleccionada
-    # ! arreglar el nombre con el que se guarda el archivo
+    # Generate the filename based on the input data and the selected function
     filename = f"img/{name_selected_func}_m{m}_n{n}_k{k}.png"
 
-    # Guardar la figura en un archivo temporal en formato PNG
+    # Save the figure to a temporary file in PNG format
     with tempfile.NamedTemporaryFile(suffix=".png") as tmpfile:
-        plt.savefig(tmpfile.name, format="png")
-        tmpfile.seek(0)  # Reiniciar el puntero del archivo al inicio
+        plt.savefig(tmpfile.name, format="png", dpi=300)
+        tmpfile.seek(0)  # Reset the file pointer to the beginning
         img_bytes = tmpfile.read()
 
-    end_time = time.time()  # Registro del tiempo de finalización de la ejecución
+    end_time = time.time()  # End execution time measurement
     execution_time = end_time - start_time
-    print(f"Tiempo de ejecución: {round(execution_time, 2)} segundos")
-    # Convertir el tiempo de ejecución a minutos y segundos
+    print(f"Execution time: {round(execution_time, 2)} seconds")
+    # Convert execution time to minutes and seconds
     minutes = math.floor(execution_time / 60)
     seconds = execution_time % 60
 
-    # Formatear el tiempo en minutos y segundos
-    time_str = f"{minutes} minutos y {round(seconds, 2)} segundos" if minutes > 0 else f"{round(seconds, 2)} segundos"
-    print(f"Tiempo de ejecución: {time_str}")
+    # Format the time in minutes and seconds
+    time_str = f"{minutes} minutes and {round(seconds, 2)} seconds" if minutes > 0 else f"{round(seconds, 2)} seconds"
+    print(f"Execution time: {time_str}")
 
-    # Devolver los bytes de la imagen y el nombre del archivo
+    # Return the image bytes and the filename
     return img_bytes, filename, execution_time
 
 
@@ -134,22 +131,25 @@ funct_dict = {
 @st.cache_data()
 def st_plot_julia(n, c_real, c_imag, k, Xr, Yr, color, selected_funct, m_j):
     """
-    Genera y muestra un gráfico del conjunto de Julia utilizando la biblioteca Matplotlib.
+    Generates and displays a plot of the Julia set using the Matplotlib library.
 
     Args:
-        n: Número de puntos en cada dimensión del gráfico.
-        c_real: Parte real del parámetro c en la ecuación z = z^2 + c.
-        c_imag: Parte imaginaria del parámetro c en la ecuación z = z^2 + c.
-        k: Número máximo de iteraciones.
-        Xr: Rango de valores del eje x [xmin, xmax].
-        Yr: Rango de valores del eje y [ymin, ymax].
+        n: Number of points in each dimension of the plot.
+        c_real: Real part of the parameter c in the equation z = z^2 + c.
+        c_imag: Imaginary part of the parameter c in the equation z = z^2 + c.
+        k: Maximum number of iterations.
+        Xr: Range of values for the x-axis [xmin, xmax].
+        Yr: Range of values for the y-axis [ymin, ymax].
+        color: Color map to use in the plot.
+        selected_funct: Name of the selected function.
+        m_j: Power of z.
 
     Returns:
-        BytesIO: Archivo de imagen en formato PNG.
+        BytesIO: Image file in PNG format.
     """
-    start_time_j = time.time()  # Registro del tiempo de inicio de la ejecución
+    start_time_j = time.time()  # Start execution time measurement
 
-    # Obtener el nombre de la función seleccionada
+    # Get the name of the selected function
     name_selected_funct = funct_dict[selected_funct]
 
     c = complex(c_real, c_imag)
@@ -158,62 +158,75 @@ def st_plot_julia(n, c_real, c_imag, k, Xr, Yr, color, selected_funct, m_j):
     X, Y = np.meshgrid(x, y)
     W = np.zeros((len(X), len(Y)))
 
-    # Barra de progresp
+    # Create an empty progress bar object
     progress_bar_j = st.progress(0)
+
+    # Define the function to calculate the Julia set value for a single point
+    def calculate_julia(m, j):
+        z = X[m, j] + Y[m, j] * 1j
+        R = max(abs(c), 2)
+        i = 0
+        funct = funct_dict[selected_funct]
+        while i < k:
+            if abs(z) > R:
+                break
+            z = funct(z, c, m_j)
+
+            i += 1
+        return i
+
+    # Parallelize the computation of the Julia set
+    num_cores = -1  # Adjust the number of cores to use (-1 uses all)
+    results = Parallel(n_jobs=num_cores)(delayed(calculate_julia)(
+        m, j) for m in range(X.shape[0]) for j in range(Y.shape[0]))
+
+    # Store the results in the W matrix
     for m in range(X.shape[0]):
         for j in range(Y.shape[0]):
-            z = X[m, j] + Y[m, j] * 1j
-            R = max(abs(c), 2)
-            i = 0
-            funct = funct_dict[selected_funct]
-            while i < k:
-                if abs(z) > R:
-                    break
-                z = funct(z, c, m_j)
+            W[m, j] = results[m * Y.shape[0] + j]
 
-                i += 1
-            W[m, j] = i
-        progress_bar_j.progress(m / X.shape[0])
+        # Update progress bar
+        # Increment the progress by 1 and divide by total
+        progress_bar_j.progress((m + 1) / X.shape[0])
 
-    # Crear una figura y mostrar la imagen del conjunto de Mandelbrot en ella
+    # Create a figure and display the Julia set image
     fig = plt.figure()
     plt.imshow(W, extent=[Xr[0], Xr[1], Yr[0], Yr[1]],
                cmap=color, interpolation='bilinear', aspect="equal")
 
-    # Establecer el título de la gráfica con los parámetros
+    # Set the plot title with the selected parameters
     plt.title(
-        f"Conjunto de Julia ({selected_funct}, m={m_j},c={c}, n={n}, k={k})", fontsize=9)
+        f"Julia Set ({selected_funct}, m={m_j}, c={c}, n={n}, k={k})", fontsize=9)
 
-    # Configurar el tamaño de los números de los ejes x e y
+    # Set the font size of x and y axis labels
     plt.xticks(fontsize=8)
     plt.yticks(fontsize=8)
 
-    # Mostrar la figura en la interfaz de Streamlit
+    # Display the plot in the Streamlit interface
     st.pyplot(fig)
 
-    # Generar el nombre del archivo basado en los datos de entrada y la función seleccionada
+    # Generate the filename based on the input data and the selected function
     filename_j = f"img/julia_{name_selected_funct}_m{m_j}_c{c}_n{n}_k{k}.png"
 
-    # Guardar la figura en un archivo temporal en formato PNG
+    # Save the figure to a temporary file in PNG format
     with tempfile.NamedTemporaryFile(suffix=".png") as tmpfile:
-        plt.savefig(tmpfile.name, format="png")
-        tmpfile.seek(0)  # Reiniciar el puntero del archivo al inicio
+        plt.savefig(tmpfile.name, format="png", dpi=300)
+        tmpfile.seek(0)  # Reset the file pointer to the beginning
         img_bytes = tmpfile.read()
 
-    end_time = time.time()  # Registro del tiempo de finalización de la ejecución
+    end_time = time.time()  # End execution time measurement
     execution_time_j = end_time - start_time_j
 
-    # Convertir el tiempo de ejecución a minutos y segundos
+    # Convert execution time to minutes and seconds
     minutes_j = math.floor(execution_time_j / 60)
     seconds_j = execution_time_j % 60
 
-    # Formatear el tiempo en minutos y segundos
-    time_str = f"{minutes_j} minutos y {round(seconds_j, 2)} segundos" if minutes_j > 0 else f"{round(seconds_j, 2)} segundos"
-    print(f"Tiempo de ejecución: {time_str}")
+    # Format the time in minutes and seconds
+    time_str = f"{minutes_j} minutes and {round(seconds_j, 2)} seconds" if minutes_j > 0 else f"{round(seconds_j, 2)} seconds"
+    print(f"Execution time: {time_str}")
 
-    # Devolver los bytes de la imagen
+    # Return the image bytes and the filename
     return img_bytes, filename_j, execution_time_j
-
 
 # def plot_mandelbrot(n, k, Xr, Yr):
 #     """
