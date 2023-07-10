@@ -1,13 +1,12 @@
-import numpy as np
-import matplotlib.pyplot as plt
-import streamlit as st
 import tempfile
 import cmath
 import mpmath
 import math
+import numpy as np
+import matplotlib.pyplot as plt
 import time
 from joblib import Parallel, delayed
-
+import streamlit as st
 
 # Diccionario de funciones disponibles para el fractal de Mandelbrot
 function_dict = {
