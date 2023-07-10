@@ -3,13 +3,10 @@ Aplicación de Streamlit para la representación y visualización de fractales g
 
 Enrique Vasallo Fernández
 """
-import streamlit as st
 import warnings
-import numpy as np
-import matplotlib.pyplot as plt
-from utils.funciones import *
-import cmath
 import math
+from utils.funciones import st_plot_julia, st_plot_mandelbrot
+import streamlit as st
 
 # Establece la opción de almacenamiento en caché de Streamlit en disco
 st.set_option('client.caching', 'disk')
