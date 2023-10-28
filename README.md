@@ -1,4 +1,4 @@
-<font color='red'> ERROR, APP NOT WORKING RIGHT NOW, SORRY <\font>
+<font color="red"> ERROR, APP NOT WORKING RIGHT NOW, SORRY </font>
 
 
 # Fractal Generator
