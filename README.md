@@ -1,3 +1,6 @@
+<font color='red'> ERROR, APP NOT WORKING RIGHT NOW, SORRY <\font>
+
+
 # Fractal Generator
 
 This Fractal Generator is a Python application that allows you to visualize and explore various types of fractals, including the Mandelbrot set and Julia sets. It provides an interactive interface built with Streamlit and uses popular libraries such as NumPy, Matplotlib, and Plotly.
