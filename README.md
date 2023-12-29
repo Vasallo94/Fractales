@@ -1,4 +1,11 @@
 # Fractal Generator
+- [Fractal Generator](#fractal-generator)
+  - [Features](#features)
+  - [Streamlit App](#streamlit-app)
+  - [Installation](#installation)
+  - [Usage](#usage)
+  - [Contributing](#contributing)
+  - [Examples](#examples)
 
 This Fractal Generator is a Python application that allows you to visualize and explore various types of fractals, including the Mandelbrot set and Julia sets. It provides an interactive interface built with Streamlit and uses popular libraries such as NumPy, Matplotlib, and Plotly.
 
@@ -50,3 +57,4 @@ Contributions are welcome! If you find any bugs or want to suggest new features,
 |---|---|
 | ![Alt text](img/exp(z%5E3:c%5E3).png) | ![Alt text](img/img__function%20_lambda_%20at%200x126daa440__m2_n600_k100.png) |
 | ![Alt text](img/img__function%20_lambda_%20at%200x126e74940__m2_n600_k100.png) |  ![Alt text](img/img__function%20_lambda_%20at%200x1259d1750__m3_n600_k100.png)|
+**
