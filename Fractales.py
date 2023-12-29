@@ -5,17 +5,21 @@ Enrique Vasallo Fernández
 """
 import warnings
 import math
-from utils.funciones import st_plot_julia, st_plot_mandelbrot
+from utils.funciones import *
 import streamlit as st
 
 # Establece la opción de almacenamiento en caché de Streamlit en disco
-st.set_option('client.caching', 'disk')
+st.set_option("client.caching", "disk")
 
 ################################################# CONFIGURACIÓN DE LA PÁGINA  #####################################################
-st.set_page_config(page_title="Fractales",
-                   layout="wide", page_icon="❄️", initial_sidebar_state="collapsed")
+st.set_page_config(
+    page_title="Fractales",
+    layout="wide",
+    page_icon="❄️",
+    initial_sidebar_state="collapsed",
+)
 st.set_option("deprecation.showPyplotGlobalUse", False)
-warnings.simplefilter(action='ignore', category=FutureWarning)
+warnings.simplefilter(action="ignore", category=FutureWarning)
 
 # # Configuración de la barra lateral y de Made with Streamlit
 # st.markdown("""
@@ -37,7 +41,9 @@ warnings.simplefilter(action='ignore', category=FutureWarning)
 def main():
     # Cambiar la fuente de texto
     st.write(
-        """ <style>h1, h2, h3, h4, h5, h6 { font-family: 'roman'; } </style>""", unsafe_allow_html=True)
+        """ <style>h1, h2, h3, h4, h5, h6 { font-family: 'roman'; } </style>""",
+        unsafe_allow_html=True,
+    )
     # Header
     col1, col2 = st.columns([3, 1])
 
@@ -46,7 +52,7 @@ def main():
         # st.markdown('## SUBTITULO')
 
     with col2:
-        st.image('img/koch_fractal.gif', caption='Fractal de Koch')
+        st.image("img/koch_fractal.gif", caption="Fractal de Koch")
 
     # Tabs para la selección de fractales
     tabs = st.tabs(["Conjunto de Mandelbrot", "Conjunto de Julia"])
@@ -55,35 +61,73 @@ def main():
     # Mandelbrot
     with tabs[0]:
         st.markdown(
-            "<center><h2><l style='color:white; font-size: 30px;'>Conjunto de Mandelbrot</h2></l></center>", unsafe_allow_html=True)
+            "<center><h2><l style='color:white; font-size: 30px;'>Conjunto de Mandelbrot</h2></l></center>",
+            unsafe_allow_html=True,
+        )
         st.markdown("""---""")
 
         # Obtener los valores de los sliders desde el usuario
-        n_m = st.slider("Número de puntos a generar (n)",
-                        min_value=100, max_value=5000, value=600, step=25)
+        n_m = st.slider(
+            "Número de puntos a generar (n)",
+            min_value=100,
+            max_value=5000,
+            value=600,
+            step=25,
+        )
         k_m = st.slider(
-            "Número de iteraciones (k)", min_value=10, max_value=1000, value=100, step=10)
+            "Número de iteraciones (k)",
+            min_value=10,
+            max_value=1000,
+            value=100,
+            step=10,
+        )
         Xr_m = st.slider(
-            "Rango de valores del eje $x$:", -10.0, 10.0, (-2.0, 1.0), step=0.1)
+            "Rango de valores del eje $x$:", -10.0, 10.0, (-2.0, 1.0), step=0.1
+        )
         Yr_m = st.slider(
-            "Rango de valores del eje $y$:", -10.0, 10.0, (-1.0, 1.0), step=0.1)
+            "Rango de valores del eje $y$:", -10.0, 10.0, (-1.0, 1.0), step=0.1
+        )
         selected_func = st.selectbox(
-            'Selecciona la función', list(function_dict.keys()))
-        m = st.slider("Valor de $m$:", min_value=1,
-                      max_value=25, value=2, step=1)
-        color_m = st.selectbox("Selecciona la paleta de colores:", ('hot', 'cool', 'spring', 'summer', 'autumn',
-                                                                    'winter',  'RdBu', 'RdGy', 'RdYlBu', 'RdYlGn', 'Spectral', 'plasma', 'inferno', 'magma', 'viridis'), key="selectbox_color_m")
+            "Selecciona la función", list(function_dict.keys())
+        )
+        m = st.slider("Valor de $m$:", min_value=1, max_value=25, value=2, step=1)
+        color_m = st.selectbox(
+            "Selecciona la paleta de colores:",
+            (
+                "hot",
+                "cool",
+                "spring",
+                "summer",
+                "autumn",
+                "winter",
+                "RdBu",
+                "RdGy",
+                "RdYlBu",
+                "RdYlGn",
+                "Spectral",
+                "plasma",
+                "inferno",
+                "magma",
+                "viridis",
+            ),
+            key="selectbox_color_m",
+        )
         # Verificar si se ha presionado el botón "Generar Plot"
         if st.button("Generar gráfico del conjunto de Mandelbrot"):
             # Llamar a la función st_plot_mandelbrot con los parámetros ingresados
             img_bytes, filename, execution_time = st_plot_mandelbrot(
-                n_m, k_m, Xr_m, Yr_m, color_m, selected_func, m)
+                n_m, k_m, Xr_m, Yr_m, color_m, selected_func, m
+            )
             # Convertir el tiempo de ejecución a minutos y segundos
             minutes = math.floor(execution_time / 60)
             seconds = execution_time % 60
 
             # Formatear el tiempo en minutos y segundos
-            time_str = f"{minutes} minutos y {round(seconds, 2)} segundos" if minutes > 0 else f"{round(seconds, 2)} segundos"
+            time_str = (
+                f"{minutes} minutos y {round(seconds, 2)} segundos"
+                if minutes > 0
+                else f"{round(seconds, 2)} segundos"
+            )
             st.write(f"Tiempo de ejecución: {time_str}")
             # Verificar si se pudo generar el gráfico
             if img_bytes is not None:
@@ -92,7 +136,7 @@ def main():
                     "Descargar imagen",
                     data=img_bytes,
                     file_name=filename,
-                    mime="image/png"
+                    mime="image/png",
                 )
             else:
                 # Mostrar un mensaje de error si no se pudo generar el gráfico
@@ -102,38 +146,95 @@ def main():
     # Julia
     with tabs[1]:
         st.markdown(
-            "<center><h2><l style='color:white; font-size: 30px;'>Conjunto de Julia</h2></l></center>", unsafe_allow_html=True)
+            "<center><h2><l style='color:white; font-size: 30px;'>Conjunto de Julia</h2></l></center>",
+            unsafe_allow_html=True,
+        )
         st.markdown("""---""")
         # Obtener los valores de los sliders desde el usuario
-        n_j = st.slider("Número de puntos a generar (n)",
-                        min_value=100, max_value=10000, value=1000, step=10, key="slider_n_j")
-        k_j = st.slider("Número de iteraciones (k)",
-                        min_value=1, max_value=1000, value=100, step=10, key="slider_k_j")
-        c_real = st.number_input(
-            "Valor de la parte real de c, $Re(c)$:", value=0.0)
+        n_j = st.slider(
+            "Número de puntos a generar (n)",
+            min_value=100,
+            max_value=10000,
+            value=1000,
+            step=10,
+            key="slider_n_j",
+        )
+        k_j = st.slider(
+            "Número de iteraciones (k)",
+            min_value=1,
+            max_value=1000,
+            value=100,
+            step=10,
+            key="slider_k_j",
+        )
+        c_real = st.number_input("Valor de la parte real de c, $Re(c)$:", value=0.0)
         c_imag = st.number_input(
-            "Valor de la parte imaginaria de c, $Im(c)$:", value=-1.0)
+            "Valor de la parte imaginaria de c, $Im(c)$:", value=-1.0
+        )
         selected_funct = st.selectbox(
-            'Selecciona la función', list(funct_dict.keys()),  key="selectbox_funct_j")
-        m_j = st.slider("Valor de $m$:", min_value=2,
-                        max_value=25, value=2, step=1, key="slider_m_j")
-        Xr_j = st.slider("Rango de Valores del eje $x$:", -10.0, 10.0,
-                         (-2.0, 2.0), key="slider_Xr_j", step=0.1)
-        Yr_j = st.slider("Rango de Valores del eje $y$:", -10.0,
-                         10.0, (-2.0, 2.0), key="slider_Yr_j", step=0.1)
-        color_j = st.selectbox("Selecciona la paleta de colores:", ('hot', 'cool', 'spring', 'summer', 'autumn',
-                                                                    'winter',  'RdBu', 'RdGy', 'RdYlBu', 'RdYlGn', 'Spectral', 'plasma', 'inferno', 'magma', 'viridis'), key="selectbox_color_j")
+            "Selecciona la función", list(funct_dict.keys()), key="selectbox_funct_j"
+        )
+        m_j = st.slider(
+            "Valor de $m$:",
+            min_value=2,
+            max_value=25,
+            value=2,
+            step=1,
+            key="slider_m_j",
+        )
+        Xr_j = st.slider(
+            "Rango de Valores del eje $x$:",
+            -10.0,
+            10.0,
+            (-2.0, 2.0),
+            key="slider_Xr_j",
+            step=0.1,
+        )
+        Yr_j = st.slider(
+            "Rango de Valores del eje $y$:",
+            -10.0,
+            10.0,
+            (-2.0, 2.0),
+            key="slider_Yr_j",
+            step=0.1,
+        )
+        color_j = st.selectbox(
+            "Selecciona la paleta de colores:",
+            (
+                "hot",
+                "cool",
+                "spring",
+                "summer",
+                "autumn",
+                "winter",
+                "RdBu",
+                "RdGy",
+                "RdYlBu",
+                "RdYlGn",
+                "Spectral",
+                "plasma",
+                "inferno",
+                "magma",
+                "viridis",
+            ),
+            key="selectbox_color_j",
+        )
         # Verificar si se ha presionado el botón "Generar Plot"
         if st.button("Generar gráfico del conjunto de Julia", key="button_plot"):
             # Llamar a la función plot_julia con los parámetros ingresados
             img_bytes, filename_j, execution_time_j = st_plot_julia(
-                n_j, c_real, c_imag, k_j, Xr_j, Yr_j, color_j, selected_funct, m_j)
+                n_j, c_real, c_imag, k_j, Xr_j, Yr_j, color_j, selected_funct, m_j
+            )
             # Convertir el tiempo de ejecución a minutos y segundos
             minutes_j = math.floor(execution_time_j / 60)
             seconds_j = execution_time_j % 60
 
             # Formatear el tiempo en minutos y segundos
-            time_str = f"{minutes_j} minutos y {round(seconds_j, 2)} segundos" if minutes_j > 0 else f"{round(seconds_j, 2)} segundos"
+            time_str = (
+                f"{minutes_j} minutos y {round(seconds_j, 2)} segundos"
+                if minutes_j > 0
+                else f"{round(seconds_j, 2)} segundos"
+            )
             st.write(f"Tiempo de ejecución: {time_str}")
             # Verificar si se pudo generar el gráfico
             if img_bytes is not None:
@@ -142,12 +243,12 @@ def main():
                     "Descargar imagen",
                     data=img_bytes,
                     file_name=filename_j,
-                    mime="image/png"
+                    mime="image/png",
                 )
             else:
                 # Mostrar un mensaje de error si no se pudo generar el gráfico
                 st.error("No se pudo generar el gráfico.")
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()
