@@ -73,7 +73,7 @@ def main():
                 "El conjunto de Mandelbrot es un conjunto de números complejos que exhibe un comportamiento caótico cuando se itera una función cuadrática simple. Está relacionado con el conjunto de Julia y se puede visualizar como un conjunto de puntos en el plano complejo."
             )
             st.markdown(
-                "Para generar el conjunto de Mandelbrot, se toma un número complejo $c$ y se itera la función $f(z) = z^2 + c$, donde $z$ es un número complejo inicial. Dependiendo de los valores de $c$ y el número de iteraciones, se pueden obtener diferentes patrones y estructuras en el conjunto de Mandelbrot. En el código, se utiliza la función $f(z) = z^m + c$, donde $m$ es un número entero positivo. Para $m = 2$, se obtiene la función cuadrática original. Para $m > 2$, se obtiene una función polinómica de grado $m$. Para $m < 2$, se obtiene una función racional. Para $m = 1$, se obtiene la función lineal $f(z) = z + c$."
+                "Para generar el conjunto de Mandelbrot, se toma un número complejo $c$ y se itera la función $f(z) = z^2 + c$, donde $z$ es un número complejo inicial. Dependiendo de los valores de $c$ y el número de iteraciones, se pueden obtener diferentes patrones y estructuras en el conjunto de Mandelbrot. En el código, se utiliza la función $f(z) = z^m + c$, donde $m$ es un número entero positivo. Para $m = 2$, se obtiene la función cuadrática original. Para $m > 2$, se obtiene una función polinómica de grado $m$. Para $m = 1$, se obtiene la función lineal $f(z) = z + c$. En las opciones de la aplicación se puede seleccionar entre diferentes funciones para generar variaciones del conjunto de Mandelbrot."
             )
         st.markdown("""---""")
 
