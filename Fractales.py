@@ -64,6 +64,17 @@ def main():
             "<center><h2><l style='color:white; font-size: 30px;'>Conjunto de Mandelbrot</h2></l></center>",
             unsafe_allow_html=True,
         )
+        # Menú desplegable para obtener más información sobre el conjunto de Mandelbrot
+        info_expander = st.expander(
+            "Información adicional sobre el conjunto de Mandelbrot"
+        )
+        with info_expander:
+            st.markdown(
+                "El conjunto de Mandelbrot es un conjunto de números complejos que exhibe un comportamiento caótico cuando se itera una función cuadrática simple. Está relacionado con el conjunto de Julia y se puede visualizar como un conjunto de puntos en el plano complejo."
+            )
+            st.markdown(
+                "Para generar el conjunto de Mandelbrot, se toma un número complejo $c$ y se itera la función $f(z) = z^2 + c$, donde $z$ es un número complejo inicial. Dependiendo de los valores de $c$ y el número de iteraciones, se pueden obtener diferentes patrones y estructuras en el conjunto de Mandelbrot. En el código, se utiliza la función $f(z) = z^m + c$, donde $m$ es un número entero positivo. Para $m = 2$, se obtiene la función cuadrática original. Para $m > 2$, se obtiene una función polinómica de grado $m$. Para $m < 2$, se obtiene una función racional. Para $m = 1$, se obtiene la función lineal $f(z) = z + c$."
+            )
         st.markdown("""---""")
 
         # Obtener los valores de los sliders desde el usuario
@@ -106,8 +117,8 @@ def main():
         )
         m = st.slider(
             "Valor de $m$:",
-            min_value=1,
-            max_value=25,
+            min_value=-10,
+            max_value=10,
             value=2,
             step=1,
             help="El valor de m utilizado en la función para generar el conjunto de Mandelbrot.",
