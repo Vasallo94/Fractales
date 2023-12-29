@@ -73,6 +73,7 @@ def main():
             max_value=5000,
             value=600,
             step=25,
+            help="El número de puntos a generar en el conjunto de Mandelbrot.",
         )
         k_m = st.slider(
             "Número de iteraciones (k)",
@@ -80,17 +81,37 @@ def main():
             max_value=1000,
             value=100,
             step=10,
+            help="El número de iteraciones para determinar si un punto pertenece al conjunto de Mandelbrot.",
         )
         Xr_m = st.slider(
-            "Rango de valores del eje $x$:", -10.0, 10.0, (-2.0, 1.0), step=0.1
+            "Rango de valores del eje $x$:",
+            -10.0,
+            10.0,
+            (-2.0, 1.0),
+            step=0.1,
+            help="El rango de valores del eje x para la visualización del conjunto de Mandelbrot.",
         )
         Yr_m = st.slider(
-            "Rango de valores del eje $y$:", -10.0, 10.0, (-1.0, 1.0), step=0.1
+            "Rango de valores del eje $y$:",
+            -10.0,
+            10.0,
+            (-1.0, 1.0),
+            step=0.1,
+            help="El rango de valores del eje y para la visualización del conjunto de Mandelbrot.",
         )
         selected_func = st.selectbox(
-            "Selecciona la función", list(function_dict.keys())
+            "Selecciona la función",
+            list(function_dict.keys()),
+            help="La función utilizada para generar el conjunto de Mandelbrot.",
         )
-        m = st.slider("Valor de $m$:", min_value=1, max_value=25, value=2, step=1)
+        m = st.slider(
+            "Valor de $m$:",
+            min_value=1,
+            max_value=25,
+            value=2,
+            step=1,
+            help="El valor de m utilizado en la función para generar el conjunto de Mandelbrot.",
+        )
         color_m = st.selectbox(
             "Selecciona la paleta de colores:",
             (
@@ -110,8 +131,9 @@ def main():
                 "magma",
                 "viridis",
             ),
-            key="selectbox_color_m",
+            help="La paleta de colores utilizada para la visualización del conjunto de Mandelbrot.",
         )
+
         # Verificar si se ha presionado el botón "Generar Plot"
         if st.button("Generar gráfico del conjunto de Mandelbrot"):
             # Llamar a la función st_plot_mandelbrot con los parámetros ingresados

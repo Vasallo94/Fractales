@@ -162,6 +162,16 @@ def st_plot_julia(n, c_real, c_imag, k, Xr, Yr, color, selected_funct, m_j):
 
     # Define the function to calculate the Julia set value for a single point
     def calculate_julia(m, j):
+        """
+        Calcula la pertenencia de un punto al conjunto de Julia y devuelve el resultado.
+
+        Args:
+            m: Índice de fila del punto en la matriz.
+            j: Índice de columna del punto en la matriz.
+
+        Returns:
+            Número de iteraciones realizadas antes de determinar la pertenencia.
+        """
         z = X[m, j] + Y[m, j] * 1j
         R = max(abs(c), 2)
         i = 0
@@ -174,314 +184,314 @@ def st_plot_julia(n, c_real, c_imag, k, Xr, Yr, color, selected_funct, m_j):
             i += 1
         return i
 
-    # Parallelize the computation of the Julia set
-    num_cores = -1  # Adjust the number of cores to use (-1 uses all)
+    # Paraleliza el cálculo del conjunto de Julia
+    num_cores = -1  # Ajusta el número de núcleos a utilizar (-1 utiliza todos)
     results = Parallel(n_jobs=num_cores)(delayed(calculate_julia)(
         m, j) for m in range(X.shape[0]) for j in range(Y.shape[0]))
 
-    # Store the results in the W matrix
+    # Almacena los resultados en la matriz W
     for m in range(X.shape[0]):
         for j in range(Y.shape[0]):
             W[m, j] = results[m * Y.shape[0] + j]
 
-        # Update progress bar
-        # Increment the progress by 1 and divide by total
+        # Actualiza la barra de progreso
+        # Incrementa el progreso en 1 y divide por el total
         progress_bar_j.progress((m + 1) / X.shape[0])
 
-    # Create a figure and display the Julia set image
+    # Crea una figura y muestra la imagen del conjunto de Julia
     fig = plt.figure()
     plt.imshow(W, extent=[Xr[0], Xr[1], Yr[0], Yr[1]],
                cmap=color, interpolation='bilinear', aspect="equal")
 
-    # Set the plot title with the selected parameters
+    # Establece el título del gráfico con los parámetros seleccionados
     plt.title(
-        f"Julia Set ({selected_funct}, m={m_j}, c={c}, n={n}, k={k})", fontsize=9)
+        f"Conjunto de Julia ({selected_funct}, m={m_j}, c={c}, n={n}, k={k})", fontsize=9)
 
-    # Set the font size of x and y axis labels
+    # Establece el tamaño de fuente de las etiquetas de los ejes x e y
     plt.xticks(fontsize=8)
     plt.yticks(fontsize=8)
 
-    # Display the plot in the Streamlit interface
+    # Muestra el gráfico en la interfaz de Streamlit
     st.pyplot(fig)
 
-    # Generate the filename based on the input data and the selected function
+    # Genera el nombre de archivo basado en los datos de entrada y la función seleccionada
     filename_j = f"img/julia_{selected_funct}_m{m_j}_c{c}_n{n}_k{k}.png"
 
-    # Save the figure to a temporary file in PNG format
+    # Guarda la figura en un archivo temporal en formato PNG
     with tempfile.NamedTemporaryFile(suffix=".png") as tmpfile:
         plt.savefig(tmpfile.name, format="png", dpi=300)
-        tmpfile.seek(0)  # Reset the file pointer to the beginning
+        tmpfile.seek(0)  # Reinicia el puntero del archivo al inicio
         img_bytes = tmpfile.read()
 
-    end_time = time.time()  # End execution time measurement
+    end_time = time.time()  # Finaliza la medición del tiempo de ejecución
     execution_time_j = end_time - start_time_j
 
-    # Convert execution time to minutes and seconds
+    # Convierte el tiempo de ejecución a minutos y segundos
     minutes_j = math.floor(execution_time_j / 60)
     seconds_j = execution_time_j % 60
 
-    # Format the time in minutes and seconds
-    time_str = f"{minutes_j} minutes and {round(seconds_j, 2)} seconds" if minutes_j > 0 else f"{round(seconds_j, 2)} seconds"
-    print(f"Execution time: {time_str}")
+    # Formatea el tiempo en minutos y segundos
+    time_str = f"{minutes_j} minutos y {round(seconds_j, 2)} segundos" if minutes_j > 0 else f"{round(seconds_j, 2)} segundos"
+    print(f"Tiempo de ejecución: {time_str}")
 
-    # Return the image bytes and the filename
+    # Devuelve los bytes de la imagen y el nombre de archivo
     return img_bytes, filename_j, execution_time_j
 
-# def plot_mandelbrot(n, k, Xr, Yr):
-#     """
-#     Genera y muestra un gráfico del conjunto de Mandelbrot utilizando la biblioteca Matplotlib.
+    # def plot_mandelbrot(n, k, Xr, Yr):
+    #     """
+    #     Genera y muestra un gráfico del conjunto de Mandelbrot utilizando la biblioteca Matplotlib.
 
-#     Args:
-#         n: Número de puntos en cada dimensión del gráfico.
-#         k: Número máximo de iteraciones.
-#         Xr: Rango de valores del eje x [xmin, xmax].
-#         Yr: Rango de valores del eje y [ymin, ymax].
+    #     Args:
+    #         n: Número de puntos en cada dimensión del gráfico.
+    #         k: Número máximo de iteraciones.
+    #         Xr: Rango de valores del eje x [xmin, xmax].
+    #         Yr: Rango de valores del eje y [ymin, ymax].
 
-#     Returns:
-#         None
-#     """
-#     x = np.linspace(Xr[0], Xr[1], n)
-#     y = np.linspace(Yr[0], Yr[1], n)
-#     X, Y = np.meshgrid(x, y)
-#     W = np.zeros((len(X), len(Y)))
+    #     Returns:
+    #         None
+    #     """
+    #     x = np.linspace(Xr[0], Xr[1], n)
+    #     y = np.linspace(Yr[0], Yr[1], n)
+    #     X, Y = np.meshgrid(x, y)
+    #     W = np.zeros((len(X), len(Y)))
 
-#     for m in range(X.shape[0]):
-#         for j in range(Y.shape[1]):
-#             w, iter = Mandelbrot(X[m, j] + Y[m, j] * 1j, k)
-#             W[m, j] += iter
+    #     for m in range(X.shape[0]):
+    #         for j in range(Y.shape[1]):
+    #             w, iter = Mandelbrot(X[m, j] + Y[m, j] * 1j, k)
+    #             W[m, j] += iter
 
-#     # Establecer el título de la gráfica con los parámetros
-#     plt.title(f"Conjunto de Mandelbrot (n={n}, k={k})")
+    #     # Establecer el título de la gráfica con los parámetros
+    #     plt.title(f"Conjunto de Mandelbrot (n={n}, k={k})")
 
-#     plt.imshow(W, extent=[Xr[0], Xr[1], Yr[0], Yr[1]],
-#                cmap='hot', interpolation='bilinear')
+    #     plt.imshow(W, extent=[Xr[0], Xr[1], Yr[0], Yr[1]],
+    #                cmap='hot', interpolation='bilinear')
 
-#     # Generar el nombre del archivo basado en los datos de entrada
-#     filename = f"img/mandelbrot_n{n}_k{k}_x{Xr[0]}_{Xr[1]}_y{Yr[0]}_{Yr[1]}.png"
-#     # Guardar la figura en un archivo PNG
-#     plt.savefig(filename)
+    #     # Generar el nombre del archivo basado en los datos de entrada
+    #     filename = f"img/mandelbrot_n{n}_k{k}_x{Xr[0]}_{Xr[1]}_y{Yr[0]}_{Yr[1]}.png"
+    #     # Guardar la figura en un archivo PNG
+    #     plt.savefig(filename)
 
-#     plt.show()
-
-
-# def Julia_plot(n, c, k, Xr=(-2, 2), Yr=(-2, 2)):
-#     """
-#     Función para generar y guardar un gráfico del conjunto de Julia.
-
-#     Args:
-#         n: Número de puntos en cada dimensión del gráfico.
-#         c: Parámetro constante para el conjunto de Julia.
-#         k: Número máximo de iteraciones para determinar la pertenencia de un punto al conjunto.
-#         Xr: Rango del eje x (valores mínimo y máximo).
-#         Yr: Rango del eje y (valores mínimo y máximo).
-
-#     Returns:
-#         None
-#     """
-#     x = np.linspace(Xr[0], Xr[1], n)
-#     y = np.linspace(Yr[0], Yr[1], n)
-#     X, Y = np.meshgrid(x, y)
-#     W = np.zeros((len(X), len(Y)))
-
-#     # Calcular el valor de pertenencia para cada punto del gráfico
-#     for m in range(X.shape[1]):
-#         for j in range(Y.shape[1]):
-#             w, iter = Julia(X[m, j] + Y[m, j] * 1j, c, k)
-#             W[m, j] += iter
-
-#     # Crear el gráfico de Heatmap con Plotly
-#     fig = go.Figure(data=go.Heatmap(x=x, y=y, z=W))
-#     fig.update_layout(
-#         title=f"Julia Set (c={c}, n={n}, k={k})",
-#         xaxis_title="Real",
-#         yaxis_title="Imaginary",
-#         width=800,
-#         height=600
-#     )
-
-#     # Ajustar el rango de ejes al centro del gráfico
-#     fig.update_xaxes(range=[Xr[0], Xr[1]], constrain="domain")
-#     fig.update_yaxes(range=[Yr[0], Yr[1]], constrain="domain")
-
-#     # Generar el nombre del archivo basado en los datos de entrada
-#     filename = f"img/julia_{n}_{c}_{k}_{Xr[0]}_{Xr[1]}_{Yr[0]}_{Yr[1]}.html"
-#     # Guardar la figura en un archivo HTML
-#     pio.write_html(fig, filename)
-
-#     # Mostrar el gráfico
-#     fig.show()
+    #     plt.show()
 
 
-# def Mandelbrot_3D(n, k, Xr=(-2, 2), Yr=(-2, 2)):
-#     """
-#     Función para generar y guardar un gráfico en 3D del conjunto de Mandelbrot.
+    # def Julia_plot(n, c, k, Xr=(-2, 2), Yr=(-2, 2)):
+    #     """
+    #     Función para generar y guardar un gráfico del conjunto de Julia.
 
-#     Args:
-#         n: Número de puntos en cada dimensión del gráfico.
-#         k: Número máximo de iteraciones para determinar la pertenencia de un punto al conjunto.
-#         Xr: Rango del eje x (valores mínimo y máximo).
-#         Yr: Rango del eje y (valores mínimo y máximo).
+    #     Args:
+    #         n: Número de puntos en cada dimensión del gráfico.
+    #         c: Parámetro constante para el conjunto de Julia.
+    #         k: Número máximo de iteraciones para determinar la pertenencia de un punto al conjunto.
+    #         Xr: Rango del eje x (valores mínimo y máximo).
+    #         Yr: Rango del eje y (valores mínimo y máximo).
 
-#     Returns:
-#         None
-#     """
-#     x = np.linspace(Xr[0], Xr[1], n)
-#     y = np.linspace(Yr[0], Yr[1], n)
-#     X, Y = np.meshgrid(x, y)
-#     Z = np.zeros((len(X), len(Y)))
+    #     Returns:
+    #         None
+    #     """
+    #     x = np.linspace(Xr[0], Xr[1], n)
+    #     y = np.linspace(Yr[0], Yr[1], n)
+    #     X, Y = np.meshgrid(x, y)
+    #     W = np.zeros((len(X), len(Y)))
 
-#     # Calcular el valor de pertenencia para cada punto del gráfico
-#     for m in range(X.shape[1]):
-#         for j in range(Y.shape[1]):
-#             w, iter = Mandelbrot(X[m, j] + Y[m, j] * 1j, k)
-#             Z[m, j] += iter
+    #     # Calcular el valor de pertenencia para cada punto del gráfico
+    #     for m in range(X.shape[1]):
+    #         for j in range(Y.shape[1]):
+    #             w, iter = Julia(X[m, j] + Y[m, j] * 1j, c, k)
+    #             W[m, j] += iter
 
-#     # Crear el gráfico 3D con Plotly
-#     fig = go.Figure(data=[go.Surface(x=x, y=y, z=Z)])
-#     fig.update_layout(
-#         title=f"Mandelbrot Set - 3D (n={n}, k={k})",
-#         scene=dict(
-#             xaxis_title="Real",
-#             yaxis_title="Imaginary",
-#             zaxis_title="Iterations"
-#         )
-#     )
+    #     # Crear el gráfico de Heatmap con Plotly
+    #     fig = go.Figure(data=go.Heatmap(x=x, y=y, z=W))
+    #     fig.update_layout(
+    #         title=f"Conjunto de Julia (c={c}, n={n}, k={k})",
+    #         xaxis_title="Real",
+    #         yaxis_title="Imaginario",
+    #         width=800,
+    #         height=600
+    #     )
 
-#     # Generar el nombre del archivo basado en los datos de entrada
-#     filename = f"img/mandelbrot_3d_{n}_{k}_{Xr[0]}_{Xr[1]}_{Yr[0]}_{Yr[1]}.html"
-#     # Guardar la figura en un archivo HTML
-#     pio.write_html(fig, filename)
+    #     # Ajustar el rango de ejes al centro del gráfico
+    #     fig.update_xaxes(range=[Xr[0], Xr[1]], constrain="domain")
+    #     fig.update_yaxes(range=[Yr[0], Yr[1]], constrain="domain")
 
-#     # Mostrar el gráfico
-#     fig.show()
+    #     # Generar el nombre del archivo basado en los datos de entrada
+    #     filename = f"img/julia_{n}_{c}_{k}_{Xr[0]}_{Xr[1]}_{Yr[0]}_{Yr[1]}.html"
+    #     # Guardar la figura en un archivo HTML
+    #     pio.write_html(fig, filename)
 
-# def Mandelbrot(c, m):
-#     """
-#     Calcula la pertenencia de un punto al conjunto de Mandelbrot y devuelve el resultado.
-
-#     Args:
-#         c: Valor complejo a evaluar.
-#         m: Número máximo de iteraciones.
-
-#     Returns:
-#         Tuple (pertenece, iteraciones):
-#             - pertenece: Booleano que indica si el punto pertenece al conjunto de Mandelbrot.
-#             - iteraciones: Número de iteraciones realizadas antes de determinar la pertenencia.
-#     """
-#     k = 0
-#     z = c
-#     while k < m:
-#         if abs(z) > 2:
-#             return 1, k
-#         z = z**2 + c
-#         k += 1
-#     return 0, k
+    #     # Mostrar el gráfico
+    #     fig.show()
 
 
-# def plot_julia(n, c, k, Xr, Yr):
-#     """
-#     Genera y muestra un gráfico del conjunto de Julia utilizando la biblioteca Matplotlib.
+    # def Mandelbrot_3D(n, k, Xr=(-2, 2), Yr=(-2, 2)):
+    #     """
+    #     Función para generar y guardar un gráfico en 3D del conjunto de Mandelbrot.
 
-#     Args:
-#         n: Número de puntos en cada dimensión del gráfico.
-#         c: Parámetro en la ecuación z = z^2 + c.
-#         k: Número máximo de iteraciones.
-#         Xr: Rango de valores del eje x [xmin, xmax].
-#         Yr: Rango de valores del eje y [ymin, ymax].
+    #     Args:
+    #         n: Número de puntos en cada dimensión del gráfico.
+    #         k: Número máximo de iteraciones para determinar la pertenencia de un punto al conjunto.
+    #         Xr: Rango del eje x (valores mínimo y máximo).
+    #         Yr: Rango del eje y (valores mínimo y máximo).
 
-#     Returns:
-#         None
-#     """
-#     x = np.linspace(Xr[0], Xr[1], n)
-#     y = np.linspace(Yr[0], Yr[1], int(n*(Yr[1]-Yr[0])/(Xr[1]-Xr[0])))
-#     X, Y = np.meshgrid(x, y)
-#     W = np.zeros((len(X), len(Y)))
+    #     Returns:
+    #         None
+    #     """
+    #     x = np.linspace(Xr[0], Xr[1], n)
+    #     y = np.linspace(Yr[0], Yr[1], n)
+    #     X, Y = np.meshgrid(x, y)
+    #     Z = np.zeros((len(X), len(Y)))
 
-#     for m in range(X.shape[1]):
-#         for j in range(Y.shape[1]):
-#             w, iter = Julia(X[m, j] + Y[m, j] * 1j, c, k)
-#             W[m, j] += iter
+    #     # Calcular el valor de pertenencia para cada punto del gráfico
+    #     for m in range(X.shape[1]):
+    #         for j in range(Y.shape[1]):
+    #             w, iter = Mandelbrot(X[m, j] + Y[m, j] * 1j, k)
+    #             Z[m, j] += iter
 
-#     # Establecer el título de la gráfica con los parámetros
-#     plt.title(f"Conjunto de Julia (c={c}, n={n},k={k})")
+    #     # Crear el gráfico 3D con Plotly
+    #     fig = go.Figure(data=[go.Surface(x=x, y=y, z=Z)])
+    #     fig.update_layout(
+    #         title=f"Conjunto de Mandelbrot - 3D (n={n}, k={k})",
+    #         scene=dict(
+    #             xaxis_title="Real",
+    #             yaxis_title="Imaginario",
+    #             zaxis_title="Iteraciones"
+    #         )
+    #     )
 
-#     plt.imshow(W, extent=[Xr[0], Xr[1], Yr[0], Yr[1]],
-#                cmap='hot', interpolation='bilinear')
+    #     # Generar el nombre del archivo basado en los datos de entrada
+    #     filename = f"img/mandelbrot_3d_{n}_{k}_{Xr[0]}_{Xr[1]}_{Yr[0]}_{Yr[1]}.html"
+    #     # Guardar la figura en un archivo HTML
+    #     pio.write_html(fig, filename)
 
-#     # Generar el nombre del archivo basado en los datos de entrada
-#     filename = f"img/julia_n{n}_c{c.real}_{c.imag}_k{k}_x{Xr[0]}_{Xr[1]}_y{Yr[0]}_{Yr[1]}.png"
-#     # Guardar la figura en un archivo PNG
-#     plt.savefig(filename)
+    #     # Mostrar el gráfico
+    #     fig.show()
 
-#     plt.show()
+    # def Mandelbrot(c, m):
+    #     """
+    #     Calcula la pertenencia de un punto al conjunto de Mandelbrot y devuelve el resultado.
 
+    #     Args:
+    #         c: Valor complejo a evaluar.
+    #         m: Número máximo de iteraciones.
 
-# def Julia(z, c, k):
-#     """
-#     Calcula la pertenencia de un punto al conjunto de Julia y devuelve el resultado.
-
-#     Args:
-#         z: Punto complejo a evaluar.
-#         c: Parámetro en la ecuación z = z^2 + c.
-#         k: Número máximo de iteraciones.
-
-#     Returns:
-#         Tuple (pertenece, iteraciones):
-#             - pertenece: Booleano que indica si el punto pertenece al conjunto de Julia.
-#             - iteraciones: Número de iteraciones realizadas antes de determinar la pertenencia.
-#     """
-#     R = max(abs(c), 2)
-#     i = 0
-#     while i < k:
-#         if abs(z) > R:
-#             return 1, i
-#         z = z**2 + c
-#         i += 1
-#     return 0, i
+    #     Returns:
+    #         Tuple (pertenece, iteraciones):
+    #             - pertenece: Booleano que indica si el punto pertenece al conjunto de Mandelbrot.
+    #             - iteraciones: Número de iteraciones realizadas antes de determinar la pertenencia.
+    #     """
+    #     k = 0
+    #     z = c
+    #     while k < m:
+    #         if abs(z) > 2:
+    #             return 1, k
+    #         z = z**2 + c
+    #         k += 1
+    #     return 0, k
 
 
-# def Mandelbrot_plot(n, k, Xr=(-2, 2), Yr=(-2, 2)):
-#     """
-#     Función para generar y guardar un gráfico del conjunto de Mandelbrot.
+    # def plot_julia(n, c, k, Xr, Yr):
+    #     """
+    #     Genera y muestra un gráfico del conjunto de Julia utilizando la biblioteca Matplotlib.
 
-#     Args:
-#         n: Número de puntos en cada dimensión del gráfico.
-#         k: Número máximo de iteraciones para determinar la pertenencia de un punto al conjunto.
-#         Xr: Rango del eje x (valores mínimo y máximo).
-#         Yr: Rango del eje y (valores mínimo y máximo).
+    #     Args:
+    #         n: Número de puntos en cada dimensión del gráfico.
+    #         c: Parámetro en la ecuación z = z^2 + c.
+    #         k: Número máximo de iteraciones.
+    #         Xr: Rango de valores del eje x [xmin, xmax].
+    #         Yr: Rango de valores del eje y [ymin, ymax].
 
-#     Returns:
-#         None
-#     """
-#     x = np.linspace(Xr[0], Xr[1], n)
-#     y = np.linspace(Yr[0], Yr[1], n)
-#     X, Y = np.meshgrid(x, y)
-#     W = np.zeros((len(X), len(Y)))
+    #     Returns:
+    #         None
+    #     """
+    #     x = np.linspace(Xr[0], Xr[1], n)
+    #     y = np.linspace(Yr[0], Yr[1], int(n*(Yr[1]-Yr[0])/(Xr[1]-Xr[0])))
+    #     X, Y = np.meshgrid(x, y)
+    #     W = np.zeros((len(X), len(Y)))
 
-#     # Calcular el valor de pertenencia para cada punto del gráfico
-#     for m in range(X.shape[1]):
-#         for j in range(Y.shape[1]):
-#             w, iter = Mandelbrot(X[m, j] + Y[m, j] * 1j, k)
-#             W[m, j] += iter
+    #     for m in range(X.shape[0]):
+    #         for j in range(Y.shape[1]):
+    #             w, iter = Julia(X[m, j] + Y[m, j] * 1j, c, k)
+    #             W[m, j] += iter
 
-#     # Crear el gráfico de Heatmap con Plotly
-#     fig = go.Figure(data=go.Heatmap(x=x, y=y, z=W))
-#     fig.update_layout(
-#         title=f"Mandelbrot Set (n={n}, k={k})",
-#         xaxis_title="Real",
-#         yaxis_title="Imaginary",
-#         width=800,
-#         height=600
-#     )
+    #     # Establecer el título de la gráfica con los parámetros
+    #     plt.title(f"Conjunto de Julia (c={c}, n={n},k={k})")
 
-#     # Ajustar el rango de ejes al centro del gráfico
-#     fig.update_xaxes(range=[Xr[0], Xr[1]], constrain="domain")
-#     fig.update_yaxes(range=[Yr[0], Yr[1]], constrain="domain")
+    #     plt.imshow(W, extent=[Xr[0], Xr[1], Yr[0], Yr[1]],
+    #                cmap='hot', interpolation='bilinear')
 
-#     # Generar el nombre del archivo basado en los datos de entrada
-#     filename = f"img/mandelbrot_{n}_{k}_{Xr[0]}_{Xr[1]}_{Yr[0]}_{Yr[1]}.html"
-#     # Guardar la figura en un archivo HTML
-#     pio.write_html(fig, filename)
+    #     # Generar el nombre del archivo basado en los datos de entrada
+    #     filename = f"img/julia_n{n}_c{c.real}_{c.imag}_k{k}_x{Xr[0]}_{Xr[1]}_y{Yr[0]}_{Yr[1]}.png"
+    #     # Guardar la figura en un archivo PNG
+    #     plt.savefig(filename)
 
-#     # Mostrar el gráfico
-#     fig.show()
+    #     plt.show()
+
+
+    # def Julia(z, c, k):
+    #     """
+    #     Calcula la pertenencia de un punto al conjunto de Julia y devuelve el resultado.
+
+    #     Args:
+    #         z: Punto complejo a evaluar.
+    #         c: Parámetro en la ecuación z = z^2 + c.
+    #         k: Número máximo de iteraciones.
+
+    #     Returns:
+    #         Tuple (pertenece, iteraciones):
+    #             - pertenece: Booleano que indica si el punto pertenece al conjunto de Julia.
+    #             - iteraciones: Número de iteraciones realizadas antes de determinar la pertenencia.
+    #     """
+    #     R = max(abs(c), 2)
+    #     i = 0
+    #     while i < k:
+    #         if abs(z) > R:
+    #             return 1, i
+    #         z = z**2 + c
+    #         i += 1
+    #     return 0, i
+
+
+    # def Mandelbrot_plot(n, k, Xr=(-2, 2), Yr=(-2, 2)):
+    #     """
+    #     Función para generar y guardar un gráfico del conjunto de Mandelbrot.
+
+    #     Args:
+    #         n: Número de puntos en cada dimensión del gráfico.
+    #         k: Número máximo de iteraciones para determinar la pertenencia de un punto al conjunto.
+    #         Xr: Rango del eje x (valores mínimo y máximo).
+    #         Yr: Rango del eje y (valores mínimo y máximo).
+
+    #     Returns:
+    #         None
+    #     """
+    #     x = np.linspace(Xr[0], Xr[1], n)
+    #     y = np.linspace(Yr[0], Yr[1], n)
+    #     X, Y = np.meshgrid(x, y)
+    #     W = np.zeros((len(X), len(Y)))
+
+    #     # Calcular el valor de pertenencia para cada punto del gráfico
+    #     for m in range(X.shape[1]):
+    #         for j in range(Y.shape[1]):
+    #             w, iter = Mandelbrot(X[m, j] + Y[m, j] * 1j, k)
+    #             W[m, j] += iter
+
+    #     # Crear el gráfico de Heatmap con Plotly
+    #     fig = go.Figure(data=go.Heatmap(x=x, y=y, z=W))
+    #     fig.update_layout(
+    #         title=f"Conjunto de Mandelbrot (n={n}, k={k})",
+    #         xaxis_title="Real",
+    #         yaxis_title="Imaginario",
+    #         width=800,
+    #         height=600
+    #     )
+
+    #     # Ajustar el rango de ejes al centro del gráfico
+    #     fig.update_xaxes(range=[Xr[0], Xr[1]], constrain="domain")
+    #     fig.update_yaxes(range=[Yr[0], Yr[1]], constrain="domain")
+
+    #     # Generar el nombre del archivo basado en los datos de entrada
+    #     filename = f"img/mandelbrot_{n}_{k}_{Xr[0]}_{Xr[1]}_{Yr[0]}_{Yr[1]}.html"
+    #     # Guardar la figura en un archivo HTML
+    #     pio.write_html(fig, filename)
+
+    #     # Mostrar el gráfico
+    #     fig.show()
