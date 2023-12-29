@@ -180,6 +180,7 @@ def main():
             value=1000,
             step=10,
             key="slider_n_j",
+            help="El número de puntos a generar para el conjunto de Julia.",
         )
         k_j = st.slider(
             "Número de iteraciones (k)",
@@ -188,13 +189,23 @@ def main():
             value=100,
             step=10,
             key="slider_k_j",
+            help="El número de iteraciones para el conjunto de Julia.",
         )
-        c_real = st.number_input("Valor de la parte real de c, $Re(c)$:", value=0.0)
+        c_real = st.number_input(
+            "Valor de la parte real de c, $Re(c)$:",
+            value=0.0,
+            help="El valor de la parte real de c para el conjunto de Julia.",
+        )
         c_imag = st.number_input(
-            "Valor de la parte imaginaria de c, $Im(c)$:", value=-1.0
+            "Valor de la parte imaginaria de c, $Im(c)$:",
+            value=-1.0,
+            help="El valor de la parte imaginaria de c para el conjunto de Julia.",
         )
         selected_funct = st.selectbox(
-            "Selecciona la función", list(funct_dict.keys()), key="selectbox_funct_j"
+            "Selecciona la función",
+            list(funct_dict.keys()),
+            key="selectbox_funct_j",
+            help="La función utilizada para generar el conjunto de Julia.",
         )
         m_j = st.slider(
             "Valor de $m$:",
@@ -203,6 +214,7 @@ def main():
             value=2,
             step=1,
             key="slider_m_j",
+            help="El valor de m utilizado en la función para generar el conjunto de Julia.",
         )
         Xr_j = st.slider(
             "Rango de Valores del eje $x$:",
@@ -211,6 +223,7 @@ def main():
             (-2.0, 2.0),
             key="slider_Xr_j",
             step=0.1,
+            help="El rango de valores del eje x para la visualización del conjunto de Julia.",
         )
         Yr_j = st.slider(
             "Rango de Valores del eje $y$:",
@@ -219,6 +232,7 @@ def main():
             (-2.0, 2.0),
             key="slider_Yr_j",
             step=0.1,
+            help="El rango de valores del eje y para la visualización del conjunto de Julia.",
         )
         color_j = st.selectbox(
             "Selecciona la paleta de colores:",
@@ -240,6 +254,7 @@ def main():
                 "viridis",
             ),
             key="selectbox_color_j",
+            help="La paleta de colores utilizada para la visualización del conjunto de Julia.",
         )
         # Verificar si se ha presionado el botón "Generar Plot"
         if st.button("Generar gráfico del conjunto de Julia", key="button_plot"):
