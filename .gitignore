@@ -10,3 +10,9 @@ __pycache__/
 # Ignorar los archivos de entorno virtual de Python, si los tienes
 venv/
 *.pyc
+# Ignorar los archivos de registro de errores
+error.log
+
+# Ignorar los archivos de caché de npm
+node_modules/
+
