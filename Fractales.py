@@ -117,8 +117,8 @@ def main():
         )
         m = st.slider(
             "Valor de $m$:",
-            min_value=-10,
-            max_value=10,
+            min_value=1,
+            max_value=15,
             value=2,
             step=1,
             help="El valor de m utilizado en la función para generar el conjunto de Mandelbrot.",
