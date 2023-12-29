@@ -171,6 +171,15 @@ def main():
             "<center><h2><l style='color:white; font-size: 30px;'>Conjunto de Julia</h2></l></center>",
             unsafe_allow_html=True,
         )
+        # Menú desplegable para obtener más información sobre el conjunto de Julia
+        info_expander = st.expander("Información adicional sobre el conjunto de Julia")
+        with info_expander:
+            st.markdown(
+                "El conjunto de Julia es un conjunto de números complejos que exhibe un comportamiento caótico cuando se itera una función cuadrática simple. Está relacionado con el conjunto de Mandelbrot y se puede visualizar como un conjunto de puntos en el plano complejo."
+            )
+            st.markdown(
+                "Para generar el conjunto de Julia, se toma un número complejo $c$ y se itera la función $f(z) = z^2 + c$, donde $z$ es un número complejo inicial. Dependiendo de los valores de $c$ y el número de iteraciones, se pueden obtener diferentes patrones y estructuras en el conjunto de Julia."
+            )
         st.markdown("""---""")
         # Obtener los valores de los sliders desde el usuario
         n_j = st.slider(
