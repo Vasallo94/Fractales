@@ -126,15 +126,7 @@ def main():
         """ <style>h1, h2, h3, h4, h5, h6 { font-family: 'roman'; } </style>""",
         unsafe_allow_html=True,
     )
-    # Header
-    col1, col2 = st.columns([4, 1])
-
-    with col1:
-        st.markdown("# Fractales")
-        # st.markdown('## SUBTITULO')
-
-    with col2:
-        st.image("img/koch_fractal.gif", caption="Fractal de Koch")
+    st.markdown("# Fractales")
 
     # Tabs para la selección de fractales
     tabs = st.tabs(["Conjunto de Mandelbrot", "Conjunto de Julia"])
