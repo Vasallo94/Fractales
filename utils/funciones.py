@@ -186,3 +186,170 @@ def st_plot_julia(n, c_real, c_imag, k, Xr, Yr, color, selected_funct, m_j):
     print(f"Tiempo de ejecución: {time_str}")
 
     return img_bytes, filename_j, execution_time_j
+
+
+
+
+#### Prueba de código para intentar hacer el cálculo más rápido
+
+# import tempfile
+# import cmath
+# import mpmath
+# import numpy as np
+# import matplotlib.pyplot as plt
+# import time
+# from joblib import Parallel, delayed
+# import streamlit as st
+
+# function_dict = {
+#     "Fractal de Mandelbrot del tipo z = z^m + c": lambda z, c, m: z**m + c,
+#     "Fractal de Mandelbrot del tipo z =  z^m + 1/c": lambda z, c, m: z**m + 1 / c,
+#     "Fractal de Mandelbrot del tipo z = cos(z^m) + 1/c": lambda z, c, m: mpmath.cos(
+#         z**m
+#     )
+#     + 1 / c,
+#     "Fractal de Mandelbrot del tipo z = sin(z^m) + 1/c": lambda z, c, m: mpmath.sin(
+#         z**m
+#     )
+#     + 1 / c,
+#     "Fractal de Mandelbrot del tipo z = exp[(z^m - 1.00001 * z) / sqrt(c^3)]": lambda z, c, m: mpmath.exp(
+#         (z**m - 1.00001 * z) / cmath.sqrt(c**3)
+#     ),
+#     "Fractal de Mandelbrot del tipo z = exp[(z^m - 1.00001 * z) / c^3]": lambda z, c, m: mpmath.exp(
+#         (z**m - 1.00001 * z) / c**3
+#     ),
+#     "Fractal de Mandelbrot del tipo z = cos(z^m/c^m)": lambda z, c, m: mpmath.cos(
+#         z**m / c**m
+#     ),
+#     "Fractal de Mandelbrot del tipo z = exp(z^m/c^m)": lambda z, c, m: mpmath.exp(
+#         z**m / c**m
+#     ),
+#     "Fractal de Mandelbrot del tipo z = exp(c^m/z^m)": lambda z, c, m: mpmath.exp(
+#         c**m / z**m
+#     ),
+#     "Fractal de Mandelbrot del tipo z = exp(z/c^m) + 1/c": lambda z, c, m: mpmath.exp(
+#         z / c**m
+#     ),
+#     "Fractal de Mandelbrot del tipo z = cosh(z^m/c^m)": lambda z, c, m: mpmath.cosh(
+#         z**m / c**m
+#     ),
+# }
+
+# funct_dict = {
+#     "Fractal de Julia del tipo z^m + c": lambda z, c, m: z**m + c,
+#     "Fractal de Julia del tipo z^m + 1/c": lambda z, c, m: z**m + 1 / c,
+#     "Fractal de Julia del tipo z = Exp(z^m/c^m)": lambda z, c, m: mpmath.exp(
+#         z**m / c**m
+#     ),
+# }
+
+
+# @st.cache_data()
+# def calculate_mandelbrot(i, j, X, Y, k, selected_func, m):
+#     c = X[i, j] + Y[i, j] * 1j
+#     z = 0
+#     func = function_dict[selected_func]
+#     for _ in range(k):
+#         z = func(z, c, m)
+#         if abs(z) > 2:
+#             break
+#     return _
+
+
+# @st.cache_data()
+# def calculate_julia(m, j, X, Y, k, selected_funct, c, m_j):
+#     z = X[m, j] + Y[m, j] * 1j
+#     R = max(abs(c), 2)
+#     i = 0
+#     funct = funct_dict[selected_funct]
+#     while i < k:
+#         if abs(z) > R:
+#             break
+#         z = funct(z, c, m_j)
+#         i += 1
+#     return i
+
+
+# def plot_fractal(
+#     n,
+#     k,
+#     Xr,
+#     Yr,
+#     color,
+#     selected_func,
+#     m,
+#     fractal_type,
+#     c_real=None,
+#     c_imag=None,
+#     m_j=None,
+# ):
+#     start_time = time.time()
+#     x = np.linspace(Xr[0], Xr[1], n)
+#     y = np.linspace(Yr[0], Yr[1], n)
+#     X, Y = np.meshgrid(x, y)
+#     W = np.zeros((len(X), len(Y)))
+
+#     if fractal_type == "mandelbrot":
+#         calculate_function = np.vectorize(
+#             calculate_mandelbrot, excluded=["X", "Y", "k", "selected_func", "m"]
+#         )
+#         W = calculate_function(
+#             np.arange(len(X)), np.arange(len(Y)), X, Y, k, selected_func, m
+#         )
+#     elif fractal_type == "julia":
+#         c = complex(c_real, c_imag)
+#         calculate_function = np.vectorize(
+#             calculate_julia, excluded=["X", "Y", "k", "selected_funct", "c", "m_j"]
+#         )
+#         W = calculate_function(
+#             np.arange(X.shape[0]), np.arange(Y.shape[0]), X, Y, k, selected_func, c, m_j
+#         )
+
+#     fig, ax = plt.subplots()
+#     ax.imshow(
+#         W,
+#         extent=[Xr[0], Xr[1], Yr[0], Yr[1]],
+#         cmap=color,
+#         interpolation="bilinear",
+#         aspect="equal",
+#     )
+#     ax.tick_params(axis="both", labelsize=8)
+
+#     if fractal_type == "mandelbrot":
+#         ax.set_title(f"{selected_func}, m={m}, n={n}, k={k}", fontsize=9)
+#     elif fractal_type == "julia":
+#         ax.set_title(
+#             f"Conjunto de Julia ({selected_func}, m={m_j}, c={c}, n={n}, k={k})",
+#             fontsize=9,
+#         )
+
+#     st.pyplot(fig)
+
+#     end_time = time.time()
+#     execution_time = end_time - start_time
+
+#     return execution_time
+
+
+# def st_plot_mandelbrot(n, k, Xr, Yr, color, selected_func, m):
+#     execution_time = plot_fractal(
+#         n, k, Xr, Yr, color, selected_func, m, fractal_type="mandelbrot"
+#     )
+#     return execution_time
+
+
+# def st_plot_julia(n, c_real, c_imag, k, Xr, Yr, color, selected_funct, m_j):
+#     execution_time = plot_fractal(
+#         n,
+#         k,
+#         Xr,
+#         Yr,
+#         color,
+#         selected_funct,
+#         None,
+#         fractal_type="julia",
+#         c_real=c_real,
+#         c_imag=c_imag,
+#         m_j=m_j,
+#     )
+#     return execution_time
