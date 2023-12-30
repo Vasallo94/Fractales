@@ -21,19 +21,54 @@ st.set_page_config(
 st.set_option("deprecation.showPyplotGlobalUse", False)
 warnings.simplefilter(action="ignore", category=FutureWarning)
 
-# # Configuración de la barra lateral y de Made with Streamlit
-# st.markdown("""
+
+# Configuración de la barra lateral y de Made with Streamlit
+st.markdown(
+    """
+<style>
+.css-njmhce.e1ewe7hr3
+{
+visibility: hidden;
+}
+{
+.css-10pw50.e1g8pov61
+{
+visibility: hidden;
+}
+</style›""",
+    unsafe_allow_html=True,
+)
+
+# # Footer de la página
+# footer = """
 # <style>
-# .css-njmhce.e1ewe7hr3
-# {
-# visibility: hidden;
+# .footer {
+# position: fixed;
+# left: 0;
+# bottom: 0;
+# width: 100%;
+# background-color: #1a1a1a;
+# color: white;
+# text-align: center;
+# display: none; /* Ocultar el footer por defecto */
 # }
-# {
-# .css-10pw50.e1g8pov61
-# {
-# visibility: hidden;
-# }
-# </style›""", unsafe_allow_html=True)
+# </style>
+# <div class="footer">
+# <Repositorio:>Desarrollado por <a style='display: block; text-align: center;' href="https://www.linkedin.com/in/enrique-vasallo/">Enrique Vasallo Fernández</a> Repositorio: <a style='display: block; text-align: center;' href="https://github.com/Vasallo94/Fractales"> GitHub</a></p>
+# </div>
+# <script>
+# window.onscroll = function() {
+#     var footer = document.querySelector('.footer');
+#     if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight) {
+#         footer.style.display = 'block'; /* Mostrar el footer al llegar al final de la página */
+#     } else {
+#         footer.style.display = 'none'; /* Ocultar el footer en cualquier otro caso */
+#     }
+# };
+# </script>
+# """
+# st.markdown(footer, unsafe_allow_html=True)
+
 
 ########################################### INICIO DE LA PÁGINA ###########################################################
 
