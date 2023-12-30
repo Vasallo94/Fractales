@@ -369,9 +369,9 @@ def main():
 
             # Formatear el tiempo en minutos y segundos
             time_str = (
-                f"{minutes_j} minutos y {round(seconds_j, 2)} segundos"
+                f"{minutes_j} minutos y {round(seconds_j, 0)} segundos"
                 if minutes_j > 0
-                else f"{round(seconds_j, 2)} segundos"
+                else f"{round(seconds_j, 0)} segundos"
             )
             st.write(f"Tiempo de ejecución: {time_str}")
             # Verificar si se pudo generar el gráfico
