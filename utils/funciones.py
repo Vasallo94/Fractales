@@ -99,7 +99,7 @@ def st_plot_mandelbrot(n, k, Xr, Yr, color, selected_func, m):
     minutes = math.floor(execution_time / 60)
     seconds = execution_time % 60
     time_str = (
-        f"{minutes} minutes and {round(seconds, 2)} seconds"
+        f"{minutes} minutes and {seconds} seconds"
         if minutes > 0
         else f"{round(seconds, 2)} seconds"
     )
@@ -179,7 +179,7 @@ def st_plot_julia(n, c_real, c_imag, k, Xr, Yr, color, selected_funct, m_j):
     minutes_j = math.floor(execution_time_j / 60)
     seconds_j = execution_time_j % 60
     time_str = (
-        f"{minutes_j} minutos y {round(seconds_j, 2)} segundos"
+        f"{minutes_j} minutos y {seconds_j} segundos"
         if minutes_j > 0
         else f"{round(seconds_j, 2)} segundos"
     )
