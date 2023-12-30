@@ -238,7 +238,7 @@ def main():
 
             # Formatear el tiempo en minutos y segundos
             time_str = (
-                f"{minutes} minutos y {round(seconds, 0)} segundos"
+                f"{minutes} minutos y {seconds} segundos"
                 if minutes > 0
                 else f"{round(seconds, 2)} segundos"
             )
@@ -369,7 +369,7 @@ def main():
 
             # Formatear el tiempo en minutos y segundos
             time_str = (
-                f"{minutes_j} minutos y {round(seconds_j, 0)} segundos"
+                f"{minutes_j} minutos y {seconds_j} segundos"
                 if minutes_j > 0
                 else f"{round(seconds_j, 2)} segundos"
             )
