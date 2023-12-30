@@ -159,7 +159,7 @@ def main():
             )
 
         st.markdown("""---""")
-        st.markdown("""Generador de fractales""")
+        st.markdown("""### Generador de fractales""")
         # Obtener los valores de los sliders desde el usuario
         n_m = st.slider(
             "Número de puntos a generar (n)",
@@ -275,7 +275,7 @@ def main():
                 "Para generar el conjunto de Julia, se toma un número complejo $c$ y se itera la función $f(z) = z^2 + c$, donde $z$ es un número complejo inicial. Dependiendo de los valores de $c$ y el número de iteraciones, se pueden obtener diferentes patrones y estructuras en el conjunto de Julia."
             )
         st.markdown("""---""")
-        st.markdown("""Generador de fractales""")
+        st.markdown("""### Generador de fractales""")
         # Obtener los valores de los sliders desde el usuario
         n_j = st.slider(
             "Número de puntos a generar (n)",
