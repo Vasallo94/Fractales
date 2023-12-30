@@ -7,11 +7,24 @@ import warnings
 import math
 from utils.funciones import *
 import streamlit as st
+from htbuilder import (
+    HtmlElement,
+    div,
+    ul,
+    li,
+    br,
+    hr,
+    a,
+    p,
+    img,
+    styles,
+    classes,
+    fonts,
+)
+from htbuilder.units import percent, px
+from htbuilder.funcs import rgba, rgb
 
-# Establece la opción de almacenamiento en caché de Streamlit en disco
 st.set_option("client.caching", "disk")
-
-################################################# CONFIGURACIÓN DE LA PÁGINA  #####################################################
 st.set_page_config(
     page_title="Fractales",
     layout="wide",
@@ -21,53 +34,70 @@ st.set_page_config(
 st.set_option("deprecation.showPyplotGlobalUse", False)
 warnings.simplefilter(action="ignore", category=FutureWarning)
 
-
-# Configuración de la barra lateral y de Made with Streamlit
 st.markdown(
-    """
-<style>
-.css-njmhce.e1ewe7hr3
-{
-visibility: hidden;
-}
-{
-.css-10pw50.e1g8pov61
-{
-visibility: hidden;
-}
-</style›""",
+    """<style>.css-njmhce.e1ewe7hr3{visibility: hidden;}{.css-10pw50.e1g8pov61{visibility: hidden;}</style›""",
     unsafe_allow_html=True,
 )
 
-# # Footer de la página
-# footer = """
-# <style>
-# .footer {
-# position: fixed;
-# left: 0;
-# bottom: 0;
-# width: 100%;
-# background-color: #1a1a1a;
-# color: white;
-# text-align: center;
-# display: none; /* Ocultar el footer por defecto */
-# }
-# </style>
-# <div class="footer">
-# <Repositorio:>Desarrollado por <a style='display: block; text-align: center;' href="https://www.linkedin.com/in/enrique-vasallo/">Enrique Vasallo Fernández</a> Repositorio: <a style='display: block; text-align: center;' href="https://github.com/Vasallo94/Fractales"> GitHub</a></p>
-# </div>
-# <script>
-# window.onscroll = function() {
-#     var footer = document.querySelector('.footer');
-#     if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight) {
-#         footer.style.display = 'block'; /* Mostrar el footer al llegar al final de la página */
-#     } else {
-#         footer.style.display = 'none'; /* Ocultar el footer en cualquier otro caso */
-#     }
-# };
-# </script>
-# """
-# st.markdown(footer, unsafe_allow_html=True)
+
+def image(src_as_string, **style):
+    return img(src=src_as_string, style=styles(**style))
+
+
+def link(link, text, **style):
+    return a(_href=link, _target="_blank", style=styles(**style))(text)
+
+
+def layout(*args):
+    style = """    
+    <style>      
+      # MainMenu {visibility: hidden;}      
+      footer {visibility: hidden;}     
+     .stApp { bottom: 105px; }    
+    </style>    
+    """
+    style_div = styles(
+        position="fixed",
+        left=0,
+        bottom=0,
+        margin=px(0, 0, 0, 0),
+        width=percent(100),
+        color="black",
+        text_align="center",
+        height="auto",
+        opacity=1,
+    )
+    style_hr = styles(
+        display="block",
+        margin=px(8, 8, "auto", "auto"),
+        border_style="inset",
+        border_width=px(2),
+    )
+    body = p()
+    foot = div(style=style_div)(hr(style=style_hr), body)
+    st.markdown(style, unsafe_allow_html=True)
+    for arg in args:
+        if isinstance(arg, str):
+            body(arg)
+        elif isinstance(arg, HtmlElement):
+            body(arg)
+    st.markdown(str(foot), unsafe_allow_html=True)
+
+
+def footer():
+    myargs = [
+        "Hecho en  ",
+        image(
+            "https://avatars3.githubusercontent.com/u/45109972?s=400&v=4",
+            width=px(25),
+            height=px(25),
+        ),
+        "  con ❤️ por ",
+        link("https://www.linkedin.com/in/enrique-vasallo/", "@quique_vasallo"),
+        br(),
+        link("https://github.com/Vasallo94/Fractales", "Repositorio en GitHub"),
+    ]
+    layout(*myargs)
 
 
 ########################################### INICIO DE LA PÁGINA ###########################################################
@@ -340,6 +370,8 @@ def main():
             else:
                 # Mostrar un mensaje de error si no se pudo generar el gráfico
                 st.error("No se pudo generar el gráfico.")
+
+    footer()
 
 
 if __name__ == "__main__":
