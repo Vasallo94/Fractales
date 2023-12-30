@@ -34,10 +34,10 @@ st.set_page_config(
 st.set_option("deprecation.showPyplotGlobalUse", False)
 warnings.simplefilter(action="ignore", category=FutureWarning)
 
-st.markdown(
-    """<style>.css-njmhce.e1ewe7hr3{visibility: hidden;}{.css-10pw50.e1g8pov61{visibility: hidden;}</style›""",
-    unsafe_allow_html=True,
-)
+# st.markdown(
+#     """<style>.css-njmhce.e1ewe7hr3{visibility: hidden;}{.css-10pw50.e1g8pov61{visibility: hidden;}</style›""",
+#     unsafe_allow_html=True,
+# )
 
 
 def image(src_as_string, **style):
