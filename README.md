@@ -63,3 +63,4 @@ Contributions are welcome! If you find any bugs or want to suggest new features,
 - [ ] Add more functions in the Julia set.
 - [ ] Correct the footer.
 - [ ] Complete the information about fractals in the page ¿Qué son los fractales?.
+- [ ] Add the functionality to introduce a custom function in both sets.
