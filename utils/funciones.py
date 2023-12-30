@@ -88,7 +88,7 @@ def st_plot_mandelbrot(n, k, Xr, Yr, color, selected_func, m):
     filename = f"img/{selected_func}_m{m}_n{n}_k{k}.png"
 
     with tempfile.NamedTemporaryFile(suffix=".png") as tmpfile:
-        plt.savefig(tmpfile.name, format="png", dpi=600)
+        plt.savefig(tmpfile.name, format="png", dpi=1000)
         tmpfile.seek(0)
         img_bytes = tmpfile.read()
 
@@ -169,7 +169,7 @@ def st_plot_julia(n, c_real, c_imag, k, Xr, Yr, color, selected_funct, m_j):
     filename_j = f"img/julia_{selected_funct}_m{m_j}_c{c}_n{n}_k{k}.png"
 
     with tempfile.NamedTemporaryFile(suffix=".png") as tmpfile:
-        plt.savefig(tmpfile.name, format="png", dpi=600)
+        plt.savefig(tmpfile.name, format="png", dpi=1000)
         tmpfile.seek(0)
         img_bytes = tmpfile.read()
 
