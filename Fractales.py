@@ -159,7 +159,7 @@ def main():
             max_value=5000,
             value=600,
             step=25,
-            help="El número de puntos a generar en el conjunto de Mandelbrot.",
+            help="El número de puntos a generar en el conjunto de Mandelbrot. A n mayor, mayor será la resolución de la imagen generada, pero también mayor será el tiempo de ejecución.",
         )
         k_m = st.slider(
             "Número de iteraciones (k)",
@@ -167,7 +167,7 @@ def main():
             max_value=1000,
             value=100,
             step=10,
-            help="El número de iteraciones para determinar si un punto pertenece al conjunto de Mandelbrot.",
+            help="El número de iteraciones para determinar si un punto pertenece al conjunto de Mandelbrot. A k mayor, mayor será el tiempo de ejecución.",
         )
         Xr_m = st.slider(
             "Rango de valores del eje $x$:",
@@ -276,7 +276,7 @@ def main():
             value=1000,
             step=10,
             key="slider_n_j",
-            help="El número de puntos a generar para el conjunto de Julia.",
+            help="El número de puntos a generar para el conjunto de Julia. A n mayor, mayor será la resolución de la imagen generada, pero también mayor será el tiempo de ejecución.",
         )
         k_j = st.slider(
             "Número de iteraciones (k)",
@@ -285,7 +285,7 @@ def main():
             value=100,
             step=10,
             key="slider_k_j",
-            help="El número de iteraciones para el conjunto de Julia.",
+            help="El número de iteraciones para el conjunto de Julia. A k mayor, mayor será el tiempo de ejecución.",
         )
         c_real = st.number_input(
             "Valor de la parte real de c, $Re(c)$:",
