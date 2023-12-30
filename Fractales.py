@@ -7,22 +7,23 @@ import warnings
 import math
 from utils.funciones import *
 import streamlit as st
-from htbuilder import (
-    HtmlElement,
-    div,
-    ul,
-    li,
-    br,
-    hr,
-    a,
-    p,
-    img,
-    styles,
-    classes,
-    fonts,
-)
-from htbuilder.units import percent, px
-from htbuilder.funcs import rgba, rgb
+
+# from htbuilder import (
+#     HtmlElement,
+#     div,
+#     ul,
+#     li,
+#     br,
+#     hr,
+#     a,
+#     p,
+#     img,
+#     styles,
+#     classes,
+#     fonts,
+# )
+# from htbuilder.units import percent, px
+# from htbuilder.funcs import rgba, rgb
 
 st.set_option("client.caching", "disk")
 st.set_page_config(
@@ -34,86 +35,86 @@ st.set_page_config(
 st.set_option("deprecation.showPyplotGlobalUse", False)
 warnings.simplefilter(action="ignore", category=FutureWarning)
 
-# st.markdown(
-#     """<style>.css-njmhce.e1ewe7hr3{visibility: hidden;}{.css-10pw50.e1g8pov61{visibility: hidden;}</style›""",
-#     unsafe_allow_html=True,
-# )
+st.markdown(
+    """<style>.css-njmhce.e1ewe7hr3{visibility: hidden;}{.css-10pw50.e1g8pov61{visibility: hidden;}</style›""",
+    unsafe_allow_html=True,
+)
 
 
-def image(src_as_string, **style):
-    return img(src=src_as_string, style=styles(**style))
+# def image(src_as_string, **style):
+#     return img(src=src_as_string, style=styles(**style))
 
 
-def link(link, text, **style):
-    return a(_href=link, _target="_blank", style=styles(**style))(text)
+# def link(link, text, **style):
+#     return a(_href=link, _target="_blank", style=styles(**style))(text)
 
 
-scroll_event_handler = """
-<script>
-  window.addEventListener('scroll', function() {
-    let footer = document.getElementById('custom_footer');
-    if (window.innerHeight + window.scrollY >= document.body.offsetHeight) {
-      footer.style.display = 'block';
-    } else {
-      footer.style.display = 'none';
-    }
-  });
-</script>
-"""
+# scroll_event_handler = """
+# <script>
+#   window.addEventListener('scroll', function() {
+#     let footer = document.getElementById('custom_footer');
+#     if (window.innerHeight + window.scrollY >= document.body.offsetHeight) {
+#       footer.style.display = 'block';
+#     } else {
+#       footer.style.display = 'none';
+#     }
+#   });
+# </script>
+# """
 
 
-def layout(*args):
-    style = """    
-    <style>      
-      # MainMenu {visibility: hidden;}      
-      footer {visibility: hidden;}     
-     .stApp { bottom: 105px; }    
-    </style>    
-    """
-    style_div = styles(
-        position="fixed",
-        left=0,
-        bottom=0,
-        margin=px(0, 0, 0, 0),
-        width=percent(100),
-        color="black",
-        text_align="center",
-        height="auto",
-        opacity=1,
-        id="custom_footer",  # Add this line
-    )
-    style_hr = styles(
-        display="block",
-        margin=px(8, 8, "auto", "auto"),
-        border_style="inset",
-        border_width=px(2),
-    )
-    body = p()
-    foot = div(style=style_div)(hr(style=style_hr), body)
-    st.markdown(style, unsafe_allow_html=True)
-    for arg in args:
-        if isinstance(arg, str):
-            body(arg)
-        elif isinstance(arg, HtmlElement):
-            body(arg)
-    st.markdown(str(foot), unsafe_allow_html=True)
+# def layout(*args):
+#     style = """
+#     <style>
+#       # MainMenu {visibility: hidden;}
+#       footer {visibility: hidden;}
+#      .stApp { bottom: 105px; }
+#     </style>
+#     """
+#     style_div = styles(
+#         position="fixed",
+#         left=0,
+#         bottom=0,
+#         margin=px(0, 0, 0, 0),
+#         width=percent(100),
+#         color="black",
+#         text_align="center",
+#         height="auto",
+#         opacity=1,
+#         id="custom_footer",  # Add this line
+#     )
+#     style_hr = styles(
+#         display="block",
+#         margin=px(8, 8, "auto", "auto"),
+#         border_style="inset",
+#         border_width=px(2),
+#     )
+#     body = p()
+#     foot = div(style=style_div)(hr(style=style_hr), body)
+#     st.markdown(style, unsafe_allow_html=True)
+#     for arg in args:
+#         if isinstance(arg, str):
+#             body(arg)
+#         elif isinstance(arg, HtmlElement):
+#             body(arg)
+#     st.markdown(str(foot), unsafe_allow_html=True)
 
 
-def footer():
-    myargs = [
-        "Hecho en  ",
-        image(
-            "https://avatars3.githubusercontent.com/u/45109972?s=400&v=4",
-            width=px(25),
-            height=px(25),
-        ),
-        "  con ❤️ por ",
-        link("https://www.linkedin.com/in/enrique-vasallo/", "@quique_vasallo"),
-        br(),
-        link("https://github.com/Vasallo94/Fractales", "Repositorio en GitHub"),
-    ]
-    st.markdown(scroll_event_handler, unsafe_allow_html=True)
-    layout(*myargs)
+# def footer():
+#     myargs = [
+#         "Hecho en  ",
+#         image(
+#             "https://avatars3.githubusercontent.com/u/45109972?s=400&v=4",
+#             width=px(25),
+#             height=px(25),
+#         ),
+#         "  con ❤️ por ",
+#         link("https://www.linkedin.com/in/enrique-vasallo/", "@quique_vasallo"),
+#         br(),
+#         link("https://github.com/Vasallo94/Fractales", "Repositorio en GitHub"),
+#     ]
+#     st.markdown(scroll_event_handler, unsafe_allow_html=True)
+#     layout(*myargs)
 
 
 ########################################### INICIO DE LA PÁGINA ###########################################################
@@ -387,7 +388,7 @@ def main():
                 # Mostrar un mensaje de error si no se pudo generar el gráfico
                 st.error("No se pudo generar el gráfico.")
 
-    footer()
+    # footer()
 
 
 if __name__ == "__main__":
