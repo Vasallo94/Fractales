@@ -48,6 +48,20 @@ def link(link, text, **style):
     return a(_href=link, _target="_blank", style=styles(**style))(text)
 
 
+scroll_event_handler = """
+<script>
+  window.addEventListener('scroll', function() {
+    let footer = document.getElementById('custom_footer');
+    if (window.innerHeight + window.scrollY >= document.body.offsetHeight) {
+      footer.style.display = 'block';
+    } else {
+      footer.style.display = 'none';
+    }
+  });
+</script>
+"""
+
+
 def layout(*args):
     style = """    
     <style>      
@@ -66,6 +80,7 @@ def layout(*args):
         text_align="center",
         height="auto",
         opacity=1,
+        id="custom_footer",  # Add this line
     )
     style_hr = styles(
         display="block",
@@ -97,6 +112,7 @@ def footer():
         br(),
         link("https://github.com/Vasallo94/Fractales", "Repositorio en GitHub"),
     ]
+    st.markdown(scroll_event_handler, unsafe_allow_html=True)
     layout(*myargs)
 
 
