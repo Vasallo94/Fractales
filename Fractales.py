@@ -226,8 +226,8 @@ def main():
             "Número de puntos a generar (n)",
             min_value=100,
             max_value=5000,
-            value=600,
-            step=25,
+            value=1200,
+            step=50,
             help="El número de puntos a generar en el conjunto de Mandelbrot. A n mayor, mayor será la resolución de la imagen generada, pero también mayor será el tiempo de ejecución.",
         )
         k_m = st.sidebar.slider(
@@ -289,13 +289,8 @@ def main():
             help="La paleta de colores utilizada para la visualización del conjunto de Mandelbrot.",
         )
 
-        # Placeholder logic
-        if "mandelbrot_image" not in st.session_state:
-             st.info("👈 Configura los parámetros en la barra lateral y pulsa 'Generar' para crear tu fractal.")
-             st.image("img/img_mandelbrot_Fractal de Mandelbrot del tipo z^m + 1_c_n600_k100_x-1.5_1.5_y-1.5_1.5.png", caption="Ejemplo de lo que puedes generar", use_container_width=True)
-
         # Verificar si se ha presionado el botón "Generar Plot"
-        if st.sidebar.button("Generar gráfico del conjunto de Mandelbrot"):
+        if st.sidebar.button("🎨 Generar Fractal", type="primary", use_container_width=True):
             # Llamar a la función st_plot_mandelbrot con los parámetros ingresados
             img_bytes, filename, execution_time = st_plot_mandelbrot(
                 n_m, k_m, Xr_m, Yr_m, color_m, selected_func, m
@@ -376,8 +371,8 @@ def main():
             "Número de puntos a generar (n)",
             min_value=100,
             max_value=10000,
-            value=1000,
-            step=10,
+            value=1500,
+            step=50,
             key="slider_n_j",
             help="El número de puntos a generar para el conjunto de Julia. A n mayor, mayor será la resolución de la imagen generada, pero también mayor será el tiempo de ejecución.",
         )
@@ -456,13 +451,8 @@ def main():
             help="La paleta de colores utilizada para la visualización del conjunto de Julia.",
         )
 
-        # Placeholder logic
-        if "julia_image" not in st.session_state:
-             st.info("👈 Configura los parámetros en la barra lateral y pulsa 'Generar' para crear tu fractal.")
-             st.image("img/julia.png", caption="Ejemplo de lo que puedes generar", use_container_width=True)
-
         # Verificar si se ha presionado el botón "Generar Plot"
-        if st.sidebar.button("Generar gráfico del conjunto de Julia", key="button_plot"):
+        if st.sidebar.button("🎨 Generar Fractal", type="primary", use_container_width=True, key="button_plot"):
             # Llamar a la función plot_julia con los parámetros ingresados
             img_bytes, filename_j, execution_time_j = st_plot_julia(
                 n_j, c_real, c_imag, k_j, Xr_j, Yr_j, color_j, selected_funct, m_j
