@@ -77,29 +77,27 @@ def main():
         # Educational Content
         st.markdown("## 📚 ¿Qué es un fractal?")
         
-        col_text, col_img = st.columns([3, 1])
-        with col_text:
-            st.markdown(
-                """
-                Un **fractal** es una estructura matemática que exhibe **autosimilitud**: 
-                sus patrones se repiten a diferentes escalas. No importa cuánto te acerques 
-                o alejes, siempre encontrarás la misma complejidad.
-                """
-            )
-        with col_img:
-            st.image("img/koch_fractal.gif", use_container_width=True)
-            st.caption("Fractal de Koch")
-
-        st.markdown("<br>", unsafe_allow_html=True)
-
         # Expandable explanations with better formatting
-        with st.expander("🌱 Nivel básico - Introducción"):
+        with st.expander("🌱 Nivel básico - Introducción", expanded=True):
+            col_img_small, col_text_small = st.columns([1, 2])
+            with col_img_small:
+                st.image("img/koch_fractal.gif", use_container_width=True)
+                st.caption("Fractal de Koch")
+            with col_text_small:
+                st.markdown(
+                    """
+                    Un **fractal** es una estructura matemática que exhibe **autosimilitud**: 
+                    sus patrones se repiten a diferentes escalas. 
+                    
+                    Imagina un **árbol**: cada rama se divide en ramas más pequeñas, y esas ramas 
+                    se dividen en ramitas aún más pequeñas. Este patrón que se repite una y otra 
+                    vez es la esencia de un fractal.
+                    """
+                )
+            
+            st.markdown("<br>", unsafe_allow_html=True)
             st.markdown(
                 """
-                Imagina un **árbol**: cada rama se divide en ramas más pequeñas, y esas ramas 
-                se dividen en ramitas aún más pequeñas. Este patrón que se repite una y otra 
-                vez es la esencia de un fractal.
-                
                 **Ejemplos en la naturaleza:**
                 - 🌿 Helechos y brócoli romanesco
                 - ❄️ Copos de nieve
